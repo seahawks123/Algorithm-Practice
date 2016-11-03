@@ -1,0 +1,27 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        return isPanlindrome_helper(head, &head);
+    }
+    
+    bool isPanlindrome_helper(ListNode* head, ListNode** head1){
+        if(head == NULL)
+            return true;
+        bool ret = isPanlindrome_helper(head->next, head1);
+        if(ret && (head->val == (*head1)->val)){
+            *head1 = (*head1)->next;
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+};
