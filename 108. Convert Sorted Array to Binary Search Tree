@@ -24,3 +24,16 @@ public:
         return array_to_BST_helper(nums, 0, nums.size()-1);
     }
 };
+
+/*
+The logic is clear enough.
+
+When I unrolled the recursion: 
+
+1): when low = high, leaf nodes; 
+
+2): when low < high, two scenarios will put both low > high, return NULL.
+
+It's a pre-order tree traversal.
+
+*/
