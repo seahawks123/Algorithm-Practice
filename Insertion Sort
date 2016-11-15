@@ -1,0 +1,15 @@
+void insertion_sort(vector<int>& nums){
+	int size = nums.size();
+	int element = 0;
+	int j = 0;
+	for(int i = 1; i < size; i++){
+		element = nums[i];
+		j = i;
+		while(j > 0 && nums[j-1] > element){
+			nums[j] = nums[j - 1];
+			j--;
+		}
+		nums[j] = element;
+	}
+
+}
