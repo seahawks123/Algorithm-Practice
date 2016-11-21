@@ -1,0 +1,29 @@
+class Solution {
+public:
+string addBinary(string a, string b) {
+	string res;
+	int carry = 0;
+	int i = a.length()-1;
+	int j = b.length()-1;
+	while(i >= 0 || j >= 0){
+		int temp1 = (i < 0? 0:a[i] - '0');
+		int temp2 = (j < 0? 0:b[j] - '0');
+		int val = temp1 + temp2 + carry;
+		carry = val/2;
+		val = val%2;
+		string digit;
+		stringstream ss;
+		ss << val;
+		ss >> digit;
+		res = digit + res;
+		if(i>=0)
+			i--;
+		if(j>=0)
+			j--;
+	}
+	if(carry){
+		return ("1" + res);
+	}
+	return res;   
+}
+};
