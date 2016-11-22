@@ -1,0 +1,46 @@
+ListNode* reverse_list(ListNode* head){
+        ListNode* dummy = new ListNode(INT_MAX);
+        ListNode* prev = dummy;
+        while(head){
+            ListNode* temp = prev->next;
+            ListNode* temp1 = head->next;
+            prev->next = head;
+            head->next = temp;
+            head = temp1;
+        }
+        return prev->next;
+    }
+    
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        if(l1 == NULL && l2 == NULL)
+            return NULL;
+        if(l1 == NULL)
+            return l2;
+        if(l2 == NULL)
+            return l1;
+        l1 = reverse_list(l1);
+        l2 = reverse_list(l2);
+        int carry = 0;
+        ListNode* dummy = new ListNode(INT_MAX);
+        ListNode* prev = dummy;
+        while(l1 || l2){
+            int v1 = (l1 == NULL? 0:l1->val);
+            int v2 = (l2 == NULL? 0:l2->val);
+            int val = v1 + v2 + carry;
+            carry = val/10;
+            val = val%10;
+            ListNode* temp = new ListNode(val);
+            prev->next = temp;
+            prev = prev->next;
+            if(l1)
+                l1 = l1->next;
+            if(l2)
+                l2 = l2->next;
+        }
+        if(carry){
+            ListNode* temp = new ListNode(1);
+            prev->next = temp;
+        }
+        ListNode* res = reverse_list(dummy->next);
+        return res;
+    }
