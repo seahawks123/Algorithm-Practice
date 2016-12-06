@@ -1,3 +1,3 @@
 # Leetcode
 
-This file contains the problems I have practiced from Leetcode.
+Problems I have worked on from Leetcode.
