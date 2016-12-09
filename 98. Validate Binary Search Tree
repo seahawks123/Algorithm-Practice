@@ -1,0 +1,119 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    bool left_subtree_good(TreeNode* root, int val){
+        if(!root)
+            return true;
+        if(root->val >= val)
+            return false;
+        return left_subtree_good(root->left, val) && left_subtree_good(root->right, val);
+    }
+    
+    bool right_subtree_good(TreeNode* root, int val){
+        if(!root)
+            return true;
+        if(root->val <= val)
+            return false;
+        return right_subtree_good(root->left, val) && right_subtree_good(root->right, val);
+    }
+        
+public:
+    bool isValidBST(TreeNode* root) {
+        if(root == NULL)
+            return true;
+        if(root->left == NULL && root->right == NULL)
+            return true;
+        return isValidBST(root->left) && isValidBST(root->right) && left_subtree_good(root->left, root->val) && 
+        right_subtree_good(root->right, root->val);
+    }
+};
+
+//not working solution 2
+//in order traversal 
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    int prev_val = INT_MIN;
+    bool first_time = true;
+public:
+    bool isValidBST(TreeNode* root) {
+        if(!root)
+            return true;
+        if(!isValidBST(root->left))
+            return false;
+        if(root->val <= prev_val){
+            if(first_time && root->val == INT_MIN){
+                first_time = false;
+            }
+            else{
+                return false;
+            }
+        }
+        prev_val = root->val;
+        if(!isValidBST(root->right))
+            return false;
+        return true;
+    }
+};
+
+//solution 3
+//working in order traversal
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    vector<int> in_order_traversal(TreeNode* root){
+        vector<int> res;
+        if(!root)
+            return res;
+        TreeNode* node = root;
+        stack<TreeNode*> s;
+        while(node || !s.empty()){
+            if(node){
+                s.push(node);
+                node = node->left;
+            }
+            else{
+                node = s.top();
+                s.pop();
+                res.push_back(node->val);
+                node = node->right;
+            }
+        }
+        return res;
+    }
+public:
+    bool isValidBST(TreeNode* root) {
+        if(!root)
+            return true;
+        vector<int> res = in_order_traversal(root);
+        for(int i = 1; i < res.size(); i++){
+            if(res[i-1] >= res[i])
+                return false;
+        }
+        return true;
+    }
+};
