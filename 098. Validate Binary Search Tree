@@ -72,6 +72,36 @@ public:
     }
 };
 
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    TreeNode* prev = NULL;
+public:
+    bool isValidBST(TreeNode* root) {
+        if(!root)
+            return true;
+        if(!isValidBST(root->left))
+            return false;
+        if(prev != NULL && root->val <= prev->val){
+            return false;
+        }
+        prev = root;
+        if(!isValidBST(root->right))
+            return false;
+        return true;
+    }
+};
+
+
 //solution 3
 //working in order traversal
 /**
