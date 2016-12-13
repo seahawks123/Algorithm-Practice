@@ -1,0 +1,40 @@
+class Solution {
+private:
+    void print_matrix(vector<vector<int>>& vec){
+        int size1 = vec.size();
+        int size2 = vec[0].size();
+        for(int i = 0; i < size1; i++){
+            for(int j = 0; j < size2; j++){
+                cout<<vec[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+    }
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int numrows = grid.size();
+        int numcols = grid[0].size();
+        vector<vector<int>> dp(numrows, vector<int>(numcols));
+        //print_matrix(dp);
+        for(int i = 0; i < numrows; i++){
+            for(int j = 0; j < numcols; j++){
+                if(i == 0){
+                    if(j == 0){
+                        dp[i][j] = grid[i][j];  
+                    }
+                    else{
+                        dp[i][j] = dp[i][j-1] + grid[i][j];
+                    }
+                }
+                else if(j == 0){
+                    dp[i][j] = dp[i-1][j] + grid[i][j];
+                }
+                else{
+                    dp[i][j] = min(dp[i][j-1], dp[i-1][j]) + grid[i][j];
+                }
+            }
+        }
+        print_matrix(dp);
+        return dp[numrows-1][numcols-1];
+    }
+};
