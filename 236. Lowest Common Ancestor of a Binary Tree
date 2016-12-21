@@ -1,0 +1,65 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    bool contain_node(TreeNode* root, TreeNode* target_root){
+        if(!root)
+            return NULL;
+        if(root == target_root)
+            return true;
+        return contain_node(root->left, target_root) || contain_node(root->right, target_root);
+    }
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q){
+        if(!root)
+            return NULL;
+        if(root == p || root == q)
+            return root;
+        if(contain_node(root->left, p) && contain_node(root->right, q) || contain_node(root->left, q) && contain_node(root->right, p))
+            return root;
+        if(contain_node(root->left, p) && contain_node(root->left, q))
+            return lowestCommonAncestor(root->left, p, q);
+        else
+            return lowestCommonAncestor(root->right, p, q);
+    }
+};
+
+
+//right solution 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q){
+        if(!root)
+            return NULL;
+        if(root == p || root == q)
+            return root;
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+        int left_val = left == NULL?-1:left->val;
+        int right_val = right == NULL?-1:right->val;
+        if(left && right)
+            return root;
+        if(left)
+            return left;
+        if(right)
+            return right;
+        else
+            return NULL;
+    }
+};
