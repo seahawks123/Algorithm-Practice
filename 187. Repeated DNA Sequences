@@ -24,3 +24,44 @@ public:
     }
 };
 
+class Solution {
+private:
+    int string_to_int(string s){
+        int res = 0;
+        for(int i = 0; i < s.length(); i++){
+            int t;
+            if(s[i] == 'A')
+                t = 0;
+            else if(s[i] == 'C')
+                t = 1;
+            else if(s[i] == 'T')
+                t = 2;
+            else
+                t = 3;
+            res << 2 | t;
+        }
+        return res;
+    }
+public:
+     vector<string> findRepeatedDnaSequences(string s) {
+        vector<string> res;
+        int len = s.length();
+        if(len < 10)
+            return res;
+        unordered_set<int> _set;
+        for(int i = 0; i < len; i++){
+            string temp;
+            temp.push_back(s[i]);
+            for(int j = i + 1; j < i + 10 && j < len; j++){
+                temp.push_back(s[j]);
+            }
+            if(temp.length() == 10){
+                int t = string_to_int(temp);
+                if(_set.find(t) != _set.end())
+                    res.push_back(temp);
+                _set.insert(t);
+            }
+        }
+        return res;
+    }
+};
