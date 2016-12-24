@@ -1,0 +1,34 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        if(s.size() == 0 && t.size() == 0)
+            return true;
+        unordered_map<char, pair<int, string> > smap;
+        unordered_map<char, pair<int, string> > tmap;
+        for(int i = 0; i < s.length(); i++){
+            smap[s[i]].first++;
+            smap[s[i]].second.push_back('0' + i);
+        }
+        for(int i = 0; i < t.length(); i++){
+            tmap[t[i]].first++;
+            tmap[t[i]].second.push_back('0' + i);
+        }
+        priority_queue<pair<int, string> > s_heap;
+        priority_queue<pair<int, string> > t_heap;
+        for(auto it = smap.begin(); it != smap.end(); it++)
+            s_heap.push(it->second);
+        for(auto it = tmap.begin(); it != tmap.end(); it++)
+            t_heap.push(it->second);
+        cout<<t_heap.size()<<endl;
+        while(!s_heap.empty()){
+            auto s_val = s_heap.top();
+            s_heap.pop();
+            auto t_val = t_heap.top();
+            t_heap.pop();
+            if(s_val.first != t_val.first || s_val.second != t_val.second)
+                return false;
+        }
+        return true;
+    }
+    
+};
