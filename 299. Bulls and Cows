@@ -1,0 +1,57 @@
+class Solution {
+public:
+    string getHint(string secret, string guess) {
+        string res;
+        int bulls = 0;
+        int cows = 0;
+        int v1[10] = {};
+        int v2[10] = {};
+        for(int i = 0; i < secret.size(); i++){
+            if(secret[i] == guess[i])
+                bulls++;
+            else{
+                v1[secret[i]-'0']++;
+                v2[guess[i]-'0']++;
+            }
+        }
+        for(int i = 0; i < 10; i++){
+            cows += min(v1[i], v2[i]);
+        }
+        string bulls_ = to_string(bulls);
+        string cows_ = to_string(cows);
+        res = res + bulls_ + "A" + cows_ + "B";
+        return res;
+    }
+};
+
+class Solution {
+public:
+    string getHint(string secret, string guess) {
+        string res;
+        int bulls = 0;
+        int cows = 0;
+        vector<vector<int> > map1(10, vector<int>());
+        vector<vector<int> > map2(10, vector<int>());
+        for(int i = 0; i < secret.size(); i++){
+            map1[secret[i] - '0'].push_back(i);
+            map2[guess[i] - '0'].push_back(i);
+        }
+        for(int i = 0; i < 10; i++){
+            int size = min(map1[i].size(), map2[i].size());
+            for(int j = 0; j < map1[i].size(); j++){
+                for(int k = 0; k < map2[i].size(); k++){
+                    if(map1[i][j] == map2[i][k]){
+                        bulls++;
+                        size--;
+                        break;
+                    }
+                }
+            }
+            cows += size;
+        }
+        string bulls_ = to_string(bulls);
+        string cows_ = to_string(cows);
+        res = res + bulls_ + "A" + cows_ + "B";
+        return res;
+    }
+};
