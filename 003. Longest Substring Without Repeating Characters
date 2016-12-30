@@ -1,0 +1,34 @@
+class Solution {
+private:
+    bool contain_duplicate(string s, char c){
+        for(int i = 0; i < s.length(); i++){
+            if(s[i] == c)
+                return true;
+        }
+        return false;
+    }
+    
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.length() <= 1)
+            return s.length();
+        string ss;
+        ss.push_back(s[0]);
+        int global_max = 1;
+        int max = 1;
+        for(int i = 1; i < s.length(); i++){
+            if(contain_duplicate(ss, s[i])){
+                ss.clear();
+                ss.push_back(s[i]);
+                max = 1;
+            }
+            else{
+                ss.push_back(s[i]);
+                max++;
+                if(max > global_max)
+                    global_max = max;
+            }
+        }
+        return global_max;
+    }
+};
