@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        sort(citations.begin(), citations.end(), greater<int>());
+        for(int i = 0; i < citations.size(); i++){
+            if(i >= citations[i])
+                return i;
+        }
+        return citations.size();
+    }
+};
+
+
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        int size = citations.size();
+        int bucket[size + 1] = {};
+        for(int i = 0; i < size; i++){
+            if(citations[i] >= size)
+                bucket[size]++;
+            else
+                bucket[citations[i]]++;
+        }
+        int count = 0;
+        for(int i = size; i >=0; i--){
+            count += bucket[i];
+            if(count >= i)
+                return i;
+        }
+        return 0;
+    }
+};
