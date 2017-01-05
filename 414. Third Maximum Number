@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        if(nums.size() == 0)
+            return INT_MIN;
+        map<int, int> map;
+        for(int i = 0; i < nums.size(); i++){
+            map[nums[i]]++;    
+        }
+        int count = 1;
+        int max = INT_MIN;
+        for(auto it = map.rbegin(); it != map.rend(); it++){
+            if(count == 1)
+                max = it->first;
+            if(count == 3){
+                return it->first;
+            }
+            count++;
+        }
+        return max;
+    }
+};
