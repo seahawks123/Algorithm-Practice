@@ -1,0 +1,26 @@
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        if(k == 0 || nums.size() == 0)
+            return;
+        int real_k = k %(nums.size());
+        for(int i = 0; i < real_k; ++i){
+            int n = nums.back();
+            nums.insert(nums.begin(), n);
+            nums.pop_back();
+        }
+    }
+};
+
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        if(nums.size() == 0 || k == 0)
+            return;
+        int real_k = k%nums.size();
+        reverse(nums.begin(), nums.end());
+        reverse(nums.begin(), nums.begin() + real_k);
+        reverse(nums.begin() + real_k, nums.end());
+    }
+};
