@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        if(s <= 0 || nums.size() == 0)
+            return 0;
+        int temp_res = 0;
+        int res = 0;
+        for(int i = 0; i < nums.size(); ++i){
+            int sum = nums[i];
+            if(sum >= s)
+                return 1;
+            temp_res = 1;
+            for(int j = i+1; j < nums.size(); ++j){
+                sum += nums[j];
+                temp_res++;
+                if(sum >= s){
+                    if(res == 0)
+                        res = temp_res;
+                    res = min(res, temp_res);
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+};
+
+
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        if(s <= 0 || nums.size() == 0)
+            return 0;
+        int start = 0, end = 0, sum = 0, size = nums.size();
+        int res = INT_MAX;
+        while(start <= end && end < size){
+            while(sum < s && end < size){
+                sum += nums[end++];
+            }
+            while(sum >=s && start <= end){
+                res = min(res, (end-start)); 
+                sum -= nums[start++];
+            }
+        }
+        cout<<res;
+        return res == INT_MAX?0:res;
+    }
+};
