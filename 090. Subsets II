@@ -1,0 +1,28 @@
+class Solution {
+private:
+    void dfs(vector<int>& nums, vector<int>& cur, vector<vector<int> >& res, int pos){
+        res.push_back(cur);
+        int temp = INT_MIN;
+        for(int i = pos; i < nums.size(); ++i){
+            if(temp == nums[i])
+                continue;
+            cur.push_back(nums[i]);
+            dfs(nums, cur, res, i+1);
+            temp = cur.back();
+            cur.pop_back();
+        }
+    }
+    
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<vector<int> > res;
+        vector<int> cur;
+        if(nums.size() == 0){
+            res.push_back(cur);
+            return res;
+        }
+        sort(nums.begin(), nums.end());
+        dfs(nums, cur, res, 0);
+        return res;    
+    }
+};
