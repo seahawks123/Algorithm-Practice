@@ -1,0 +1,66 @@
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int wall1 = 0;
+        int wall2 = 0;
+        for(int i = 0; i < nums.size(); i++){
+            if(nums[i] != 0) 
+                continue;
+            else{
+                swap(nums[i], nums[wall1]);
+                wall1++;
+            }
+        }
+        wall2 = wall1;
+        for(int i = wall1; i < nums.size(); i++){
+            if(nums[i] != 1)
+                continue;
+            else{
+                swap(nums[i], nums[wall2]);
+                wall2++;
+            }
+        }
+    }
+};
+
+// one pass solution
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        if(nums.size() == 0)
+            return;
+        int wall1 = 0;
+        int wall2 = nums.size()-1;
+        int i = 0;
+        while(i <= wall2){
+            if(nums[i] == 1){
+                i++;
+            }
+            else if(nums[i] == 0){
+                swap(nums[i++], nums[wall1++]);
+            }
+            else if(nums[i] == 2){
+                swap(nums[i], nums[wall2--]);
+            }
+        }
+    }
+};
+
+//two passes use count:
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        vector<int> vec(3, 0);
+        for(int i = 0; i < nums.size(); ++i){
+            vec[nums[i]]++;
+        }
+        int index = 0;
+        for(int i = 0; i < vec.size(); i++){
+            while(vec[i]-- != 0){
+                nums[index++] = i;
+            }
+            
+        }
+    }
+};
