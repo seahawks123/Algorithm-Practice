@@ -1,0 +1,57 @@
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        if(nums.size() <= 1)
+            return nums;
+        vector<int> res(nums.size(), 0);
+        for(int i = 0; i < nums.size(); i++){
+            int sum = 1;
+            for(int j = 0; j < nums.size(); j++){
+                if(i == j){
+                    continue;
+                }    
+                sum = sum*nums[j];
+            }
+            res[i] = sum;
+        } 
+        return res;
+    }
+};
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        if(nums.size() <= 1)
+            return nums;
+        vector<int> res(nums.size(), 0);
+        int total = 1;
+        for(int i = 0; i < nums.size(); i++){
+            total*= nums[i];
+        } 
+        for(int i = 0; i < nums.size(); i++){
+            res[i] = temp/nums[i];
+        }
+        return res;
+    }
+};
+
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        if(nums.size() <= 1)
+            return nums;
+        vector<int> res(nums.size(), 1);
+        int left = 1, right = 1;
+        for(int i = 0; i < nums.size(); i++){
+            res[i] = res[i]*left;
+            left = left*nums[i];
+            cout<<res[i]<<" ";
+        }
+        for(int i = nums.size()-1; i>=0; i--){
+            res[i] = res[i]*right;
+            right = right*nums[i];
+        }
+        return res;
+    }
+};
