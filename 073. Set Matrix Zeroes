@@ -1,0 +1,142 @@
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int row = matrix.size();
+        if(row == 0)
+            return;
+        int col = matrix[0].size();
+        if(col == 0)
+            return;
+        vector<vector<int> > helper(row, vector<int>(col));
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(matrix[i][j] == 0){
+                    int j_temp = 0;
+                    int i_temp = 0;
+                    while(i_temp < row){
+                        helper[i_temp][j] = 10;
+                        i_temp++;
+                    }
+                    while(j_temp < col){
+                        helper[i][j_temp] = 10;
+                        j_temp++;
+                        
+                    }
+                }
+            }
+            
+        }
+        
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(helper[i][j] == 10)
+                    matrix[i][j] = 0;
+            }
+        }
+    }
+};
+
+
+
+public class Solution {
+    public void setZeroes(int[][] matrix) {
+        if(matrix == null || matrix.length == 0)
+            return;
+        boolean isZeroInFirstRow = false, isZeroInFirstCol = false;
+        
+        for(int i = 0; i < matrix.length; i++)
+            if(matrix[i][0] == 0) {
+                isZeroInFirstCol = true;
+                break;
+            }
+        
+        for(int j = 0; j < matrix[0].length; j++)
+            if(matrix[0][j] == 0) {
+                isZeroInFirstRow = true;
+                break;
+            }
+        
+        for(int i = 1; i < matrix.length; i++) {
+            for(int j = 1; j < matrix[0].length; j++) {
+                if(matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+                    
+            }
+        }
+                
+        for(int i = 1; i < matrix.length; i++) {
+            for(int j = 1; j < matrix[0].length; j++) {
+                if(matrix[i][0] == 0 || matrix[0][j] == 0)
+                    matrix[i][j] = 0;
+            }
+        }
+        
+        if(isZeroInFirstCol)
+            for(int i = 0; i < matrix.length; i++)
+                matrix[i][0] = 0;
+        
+        if(isZeroInFirstRow) {
+            for(int j = 0; j < matrix[0].length; j++)
+                matrix[0][j] = 0;
+        }
+    }
+}
+复制代码
+ 
+
+二刷：
+
+题目不难但是打字比较费力。
+
+Java:
+
+Time Complexity - O(mn)， Space Complexity - O(1)
+
+复制代码
+public class Solution {
+    public void setZeroes(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return;
+        }
+        boolean hasZeroFirstRow = false, hasZeroFirstCol = false;
+        for (int i = 0; i < matrix.length; i++) {
+            if (matrix[i][0] == 0) {
+                hasZeroFirstCol = true;
+                break;
+            }
+        }
+        for (int j = 0; j < matrix[0].length; j++) {
+            if (matrix[0][j] == 0) {
+                hasZeroFirstRow = true;
+                break;
+            }
+        }
+        for (int i = 1; i < matrix.length; i++) {
+            for (int j = 1; j < matrix[0].length; j++) {
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+            }
+        }
+        for (int i = 1; i < matrix.length; i++) {
+            for (int j = 1; j < matrix[0].length; j++) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        if (hasZeroFirstRow) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                matrix[0][j] = 0;
+            }
+        }
+        if (hasZeroFirstCol) {
+            for (int i = 0; i < matrix.length; i++) {
+                matrix[i][0] = 0;
+            }
+        }
+    }
+}
