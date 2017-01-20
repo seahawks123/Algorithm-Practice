@@ -1,0 +1,46 @@
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        int row = board.size();
+        if(row == 0)
+            return false;
+        int col = board[0].size();
+        if(col == 0)
+            return false;
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(dfs(board, word, i, j, 0, row, col))
+                    return true;
+            }
+        }
+        return false;
+    }
+    
+    bool dfs(vector<vector<char> >& board, string word, int i, int j, int index, int row, int col){
+        if(i < 0 || i >= row || j < 0 || j >= col)
+            return false;
+        if(board[i][j] == ' ')
+            return false;
+        if(board[i][j] != word[index])
+            return false;
+        if(index == word.size()-1)
+            return true;
+        char temp = board[i][j];
+        board[i][j] = ' '; 
+        bool right = dfs(board, word, i, j+1, index + 1, row, col);
+        if(right)
+            return true;
+        bool down = dfs(board, word, i+1, j, index + 1, row, col);
+        if(down)
+            return true;
+        bool left = dfs(board, word, i, j-1, index + 1, row, col);
+        if(left)
+            return true;
+        bool up = dfs(board, word, i-1, j, index + 1, row, col);
+        if(up)
+            return true;
+        board[i][j] = temp;
+        return false;
+    }
+
+};
