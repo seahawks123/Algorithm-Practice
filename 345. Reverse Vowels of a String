@@ -1,0 +1,32 @@
+class Solution {
+private:
+    bool is_vowel(char c){
+        c = tolower(c);
+        if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+            return true;
+        else 
+            return false;
+    }
+    
+public:
+    string reverseVowels(string s) {
+        if(s.size() == 0)
+            return s;
+        int left = 0, right = s.size()-1;
+        while(left <= right){
+            while(left <= right && !is_vowel(s[left])){
+                left++;
+            }
+            while(right >= left && !is_vowel(s[right])){
+                right--;
+            }
+            if(left <= right){
+                swap(s[left], s[right]);
+                left++;
+                right--;
+            }
+            
+        }
+        return s;
+    }
+};
