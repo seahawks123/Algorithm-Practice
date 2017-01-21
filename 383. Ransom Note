@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        if(ransomNote.size() > magazine.size())
+            return false;
+        int count = 0;
+        unordered_map<char, int> map;
+        for(int i = 0; i < magazine.size(); i++){
+            map[magazine[i]]++;
+        }
+        int i = 0;
+        while(count < ransomNote.size() && !map.empty()){
+            
+            if(map[ransomNote[i]] > 0){
+                map[ransomNote[i]]--;
+                count++;
+                i++;
+            }
+            else
+                break;
+        }
+        return (count == ransomNote.size()?true:false);
+    }
+};
+
+
+
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        vector<int> lettersCount(26);
+        for (char c: ransomNote) {
+            lettersCount[c - 'a']++;
+        }
+        for (char c: magazine) {
+            lettersCount[c - 'a']--;
+        }
+        for (int i: lettersCount) {
+            if (i > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
