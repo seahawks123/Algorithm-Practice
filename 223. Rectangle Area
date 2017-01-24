@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        if(E > C || B > H || F > D || G < A)
+            return (C -A) * (D - B) + (G - E) * (H - F);
+        int width = 0;
+        if(E <= C && E >= A){
+            width = min(C, G) - E;    
+        }
+        else if(E < A && G >= A){
+            width = min(C, G) - A;    
+        }
+        int height = 0;
+        if(H >= B && H <= D){
+            height = H - max(B, F);
+        }
+        else if(H > D && F <= D){
+            height = D - max(B, F);
+        }
+        return (C -A) * (D - B) + (G - E) * (H - F) - width*height;
+        
+    }
+};
