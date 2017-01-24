@@ -1,0 +1,61 @@
+class Solution {
+private:
+    void dfs(int n, int k, string& res, string& cur, int& count, vector<int>& visited){
+        if(cur.size() == n){
+            count++;
+            if(count == k){
+                res = cur;
+            }
+            return;
+        }
+        for(int i = 1; i <= n; i++){
+            if(!visited[i-1]){
+                cur.push_back(i + '0');
+                visited[i-1] = 1;
+                dfs(n, k, res, cur, count, visited);
+                visited[i-1] = 0;
+                cur.pop_back();
+            }
+        }
+    }
+    
+public:
+    string getPermutation(int n, int k) {
+        string res, cur;
+        int count = 0;
+        vector<int> visited(n, 0);
+        dfs(n, k, res, cur, count, visited);
+        return res;
+    }
+};
+
+
+
+
+
+class Solution {
+private:
+    void print_vec(vector<int>& vec){
+        for(auto n: vec){
+            cout<<n<<" ";
+        }
+    }
+public:
+    string getPermutation(int n, int k) {
+        vector<int> sum(n, 1);
+        vector<int> index(n , 1);
+        string res;
+        for(int i = 1; i < n; i++){
+            sum[i] = sum[i-1]*i;
+            index[i] = i+1;
+        }
+        k--;
+        for(int i = n - 1; i >= 0; i--){
+            int pos = k/sum[i];
+            res += index[pos] + '0';
+            index.erase(index.begin() + pos);
+            k = k %sum[i];
+        }
+        return res;
+    }
+};
