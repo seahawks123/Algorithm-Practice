@@ -1,0 +1,39 @@
+class Solution {
+public:
+    void reverseWords(string &s) {
+        if(s.size() == 0)
+            return;
+        string res, temp;
+        bool green_light = false, end_with_letter = true;
+        for(int i = 0; i < s.size(); i++){
+            
+            if(i == s.size()-1 && s[i] == ' '){
+                end_with_letter = false;
+            }
+            if(s[i] == ' '){
+                if(green_light == false)
+                    continue;
+                else{
+                    res = " " + temp + res;
+                    temp.clear();
+                    green_light = false;
+                }
+            }
+            else{
+                if(!green_light){
+                    green_light = true;
+                }
+                temp.push_back(s[i]);
+                
+            }
+        }
+        if(end_with_letter){
+            res = temp + res;    
+        }
+        else{
+            if(!res.empty())
+                res.erase(res.begin());    
+        }
+        s = res;
+    }
+};151. Reverse Words in a String
