@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int res = -1;
+        for(int i = 0; i < gas.size(); i++){
+            int index = i;
+            int count = 0;
+            while(1){
+                if(index > gas.size() && index%gas.size() == i)
+                    return i;
+                count += gas[index%gas.size()];
+                if(count < cost[index%gas.size()])
+                    break;
+                else{
+                    count -= cost[index%gas.size()];
+                    index++;
+                }
+            }
+            
+        }
+        return res;
+    }
+};
+
+
+
+
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int res = -1;
+        int i = 0;
+        while(i < gas.size()){
+            int index = i;
+            int count = 0;
+            while(1){
+                if(index > gas.size() && index%gas.size() == i)
+                    return i;
+                count += gas[index%gas.size()];
+                if(count < cost[index%gas.size()]){
+                    i = index + 1;
+                    break;
+                }
+                else{
+                    count -= cost[index%gas.size()];
+                    index++;
+                }
+            }
+            
+        }
+        return res;
+    }
+};
