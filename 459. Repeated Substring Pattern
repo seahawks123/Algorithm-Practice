@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool repeatedSubstringPattern(string str) {
+        int size = str.size();
+        if(size <= 1)
+            return false;
+        for(int i = 1; i <= size/2; i++){
+            if(size%i != 0){
+                continue;
+            }
+            string pattern = str.substr(0, i);
+            for(int j = 0; j < size; j += i){
+                string temp = str.substr(j, i);
+                if(pattern != temp){
+                    pattern.clear();
+                    break;
+                }
+            }
+            if(pattern.size() != 0)
+                return true;
+        }
+        return false;
+    }
+};
