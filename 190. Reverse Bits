@@ -1,0 +1,16 @@
+class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        uint32_t pos_high = 1<<31;
+        uint32_t res = 0;
+        uint32_t pos_low = 1;
+        while(pos_high){
+            if(pos_high & n){
+                res = res | pos_low;
+            }
+            pos_high = pos_high >> 1;
+            pos_low = pos_low << 1;
+        }
+        return res;
+    }
+};
