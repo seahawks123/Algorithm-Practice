@@ -1,0 +1,18 @@
+class Solution {
+private:
+    int dfs(vector<int>& nums, int S, int index, int sum){
+        if(index == nums.size()){
+            if(sum == S)
+                return 1;
+            else
+                return 0;
+        }  
+        int count1 = dfs(nums, S, index + 1, sum + nums[index]);
+        int count2 = dfs(nums, S, index + 1, sum - nums[index]);
+        return count1 + count2;
+    }
+public:
+    int findTargetSumWays(vector<int>& nums, int S) {
+        return dfs(nums, S, 0, 0);    
+    }
+};
