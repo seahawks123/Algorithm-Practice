@@ -1,0 +1,40 @@
+class Solution {
+private:
+    bool valid(string s){
+        if(s.size() == 0 || s.size() > 3)
+            return false;
+        if(s.size() != 1 && s[0] == '0')
+            return false;
+        int val = stoi(s);
+        if(val >= 0 && val <= 255)
+            return true;
+        else
+            return false;
+    }
+    
+    void dfs(vector<string>& res, string s, int count, string cur){
+        if(s.size() == 0 && count == 4){
+            cur.pop_back();
+            res.push_back(cur);
+            return;
+        }
+        if(s.size() == 0 || count >= 4)
+            return;
+        for(int i = 1; i < 4 && i <= s.length(); i++){
+            string temp = s.substr(0, i);
+            if(valid(temp)){
+                dfs(res, s.substr(i), count+ 1, cur + temp + ".");
+            }
+        }
+    }
+    
+public:
+    vector<string> restoreIpAddresses(string s) {
+        vector<string> res;
+        if(s.size() == 0)
+            return res;
+        string cur = "";
+        dfs(res, s, 0, cur);
+        return res;
+    }
+};
