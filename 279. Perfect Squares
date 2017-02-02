@@ -1,0 +1,61 @@
+class Solution {
+private:
+    vector<int> smaller_squares(int n){
+        vector<int> vec;
+        for(int i = 1; i <= n; i++){
+            if(i*i <= n)
+                vec.push_back(i*i);
+        }
+        return vec;
+    }
+    
+    void dfs(vector<int>& vec, int pos, int target, int& res, int size, int sum){
+        if(sum == target){
+            res = min(res, size);
+            return;
+        }
+        if(sum > target){
+            return;
+        }
+        for(int i = pos; i < vec.size(); i++){
+            sum += vec[i];
+            size += 1;
+            dfs(vec, i, target, res, size, sum);
+            sum -= vec[i];
+            size -= 1;
+        }
+    }
+    
+public:
+    int numSquares(int n) {
+        vector<int> vec = smaller_squares(n);
+        sort(vec.rbegin(), vec.rend());
+        cout<<vec.size()<<endl;
+        int res = INT_MAX;
+        dfs(vec, 0, n, res, 0, 0);
+        return res;
+    }
+};
+
+
+
+
+
+
+class Solution {
+public:
+    int numSquares(int n) {
+        vector<int> dp(n + 1, INT_MAX);
+        dp[1] = 1;
+        for(int i = 2; i <= n; i++){
+            for(int j = 1; j * j <= i; j++){
+                if(j*j == i){
+                    dp[i] = 1;
+                    break;
+                }
+                dp[i] = min(dp[i], dp[i-j*j] + 1);
+            }
+        }
+        return dp[n];
+    }
+};
