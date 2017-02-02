@@ -1,0 +1,24 @@
+class Solution {
+private:
+    void dfs(vector<vector<int>>& res, vector<int>& cur, int pos, int n, int k){
+        if(cur.size() == k){
+            res.push_back(cur);
+            return;
+        }
+        for(int i = pos; i <= n; i++){
+            cur.push_back(i);
+            dfs(res, cur, i + 1, n, k);
+            cur.pop_back();
+        }
+    }
+    
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> res;
+        vector<int> cur;
+        if(k > n || k == 0)
+            return res;
+        dfs(res, cur, 1, n, k);
+        return res;
+    }
+};
