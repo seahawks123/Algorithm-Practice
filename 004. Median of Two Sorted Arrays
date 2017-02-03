@@ -1,0 +1,66 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int size1 = nums1.size();
+        int size2 = nums2.size();
+        vector<int> vec(size1 + size2, 0);
+        int total = size1 + size2;
+        int p = 0, q = 0;
+        for(int i = 0; i < vec.size(); i++){
+            if(p < size1 && q < size2){
+                if(nums1[p] <= nums2[q]){
+                    vec[i] = nums1[p];
+                    p++;
+                }
+                else{
+                    vec[i] = nums2[q];
+                    q++;
+                }
+            }
+            else if(p >= size1){
+                vec[i] = nums2[q];
+                q++;
+            }
+            else{
+                vec[i] = nums1[p];
+                p++;
+            }
+        }
+        if((size1 + size2)%2 == 0){
+            double m = double(vec[total/2 - 1]);
+            double n = double(vec[total/2]);
+            return double((m+n)/2);
+        }
+        return vec[total/2];
+    }
+};
+
+
+
+class Solution {
+private:
+    double helper(double x, long n){
+        if(n == 0)
+            return 1.0;
+        double v = pow(x, n/2);
+        if(n%2 == 0)
+            return v*v;
+        else{
+            return x*v*v;
+        }
+    }
+public:
+    double myPow(double x, int n) {
+        if(n == 0)
+            return 1;
+        if(x == 0)
+            return 0;
+        if(n > 0)
+            return helper(x, n);
+        else{
+            long t = n;
+            return 1.0/helper(x, -t);
+        }
+            
+    }
+};
