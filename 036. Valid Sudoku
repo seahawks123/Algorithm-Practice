@@ -1,0 +1,64 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        int m = board.size();
+        if(m == 0)
+            return false;
+        int n = board[0].size();
+        if(n == 0)
+            return false;
+        for(int i = 0; i < m; i++){
+            vector<int> vec(10, 0);
+            for(int j = 0; j < n; j++){
+                if(board[i][j] == '.')
+                    continue;
+                if(vec[board[i][j] - '0'] == 1)
+                    return false;
+                vec[board[i][j] - '0'] = 1;
+            }
+        } 
+
+        for(int i = 0; i < n; i++){
+            vector<char> col;
+            for(int j = 0; j < m; j++){
+                col.push_back(board[j][i]);    
+            }
+            vector<int> vec(10, 0);
+            for(int k = 0; k < col.size(); k++){
+                if(col[k] == '.')
+                    continue;
+                if(vec[col[k] - '0'] == 1)
+                    return false;
+                vec[col[k] - '0'] = 1;
+            }
+        }
+        
+        int col_start = 0;
+        int col_end = 3;
+        int row_start = 0;
+        int row_end = 3;
+        
+        while(row_end <= m){
+            while(col_end <= n){
+                vector<int> vec(10, 0);
+                for(int i = row_start; i < row_end; i++){
+                    for(int j = col_start; j < col_end; j++){
+                        if(board[i][j] == '.'){
+                            continue;
+                        }
+                        if(vec[board[i][j] - '0'] == 1)
+                            return false;
+                        vec[board[i][j] - '0'] = 1;
+                    }
+                }
+                col_start = col_start + 3;
+                col_end = col_end + 3;
+            }
+            col_start = 0;
+            col_end = 3;
+            row_start = row_start + 3;
+            row_end = row_end + 3;
+        }
+        return true;
+    }
+};
