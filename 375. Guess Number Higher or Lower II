@@ -1,0 +1,62 @@
+class Solution {
+private:
+    int helper(int l, int h){
+        if(l >= h)
+            return 0;
+        int res = INT_MAX;
+        for(int i = l; i <= h; i++){
+            res = min(res, i + max(helper(l, i-1), helper(i+1, h)));   
+        }
+        return res;
+    }
+public:
+    int getMoneyAmount(int n) {
+        if(n == 1)
+            return 0;
+        return helper(1, n);
+    }
+};
+
+
+
+class Solution {
+private:
+    int helper(int l, int h, vector<vector<int>> dp){
+        if(l >= h)
+            return 0;
+        if(dp[l][h] != -1)
+            return dp[l][h];
+        int res = INT_MAX;
+        for(int i = l; i <= h; i++){
+            
+            res = min(res, i + max(helper(l, i-1, dp), helper(i+1, h, dp)));
+            
+        }
+        dp[l][h] = res;
+        return dp[l][h];
+    }
+public:
+    int getMoneyAmount(int n) {
+        if(n == 1)
+            return 0;
+        vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+        return helper(1, n, dp);
+    }
+};
+
+
+class Solution {
+public:
+    int getMoneyAmount(int n) {
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+		for (int L = n - 1; L > 0; L--) {
+			for (int R = L + 1; R <= n; R++) {
+				dp[L][R] = INT_MAX;
+				for (int i = L; i < R; i++) {
+					dp[L][R] = min(dp[L][R], i + max(dp[L][i - 1], dp[i + 1][R]));
+				}
+			}
+		}
+		return dp[1][n];
+    }
+};
