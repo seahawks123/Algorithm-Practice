@@ -1,0 +1,44 @@
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<char> sta;
+        int i = 0;
+        while(i < s.length()){
+            if(s[i] != ']'){
+                sta.push(s[i]);    
+            }
+            else{
+                string res;
+                string cur;
+                while(sta.top() != '[' && !sta.empty()){
+                    cur.push_back(sta.top());
+                    sta.pop();
+                }
+                if(sta.top() == '[')
+                    sta.pop();
+                reverse(cur.begin(), cur.end());
+                int temp = 0;
+                int digit = 1;
+                while(!sta.empty() && sta.top() >= '0' && sta.top() <= '9'){
+                    temp += (sta.top()-'0')*digit;  
+                    digit = digit * 10;
+                    sta.pop();
+                }
+                for(int i = 0; i < temp; i++){
+                    res += cur;
+                }
+                for(int i = 0; i < res.size(); i++){
+                    sta.push(res[i]);    
+                }
+            }
+            i++;
+        } 
+        string ret;
+        while(!sta.empty()){
+            ret.push_back(sta.top());
+            sta.pop();
+        }
+        reverse(ret.begin(), ret.end());
+        return ret;
+    }
+};
