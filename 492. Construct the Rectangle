@@ -1,0 +1,110 @@
+class Solution {
+public:
+    vector<int> constructRectangle(int area) {
+        int l = 0, w = 0, diff = INT_MAX;
+        for(int i = 1; i <= area; i++){
+            for(int j = 1; j <= i; j++){
+                if(i*j > area)
+                    break;
+                if(i*j == area){
+                    if(diff > (i - j)){
+                        diff = i - j;
+                        l = i;
+                        w = j;
+                    }        
+                }
+            }        
+        }
+        vector<int> res;
+        res.push_back(l);
+        res.push_back(w);
+        return res;
+    }
+};
+
+
+
+class Solution {
+public:
+    vector<int> constructRectangle(int area) {
+        unordered_map<int, int> map;
+        int diff = INT_MAX;
+        int l = 0, w = 0;
+        for(int i = area; i >= 1; i--){
+            if(i < area/i)
+                break;
+            int temp = area % i;
+            map[i] = (temp == 0?area/i:INT_MIN);
+        }
+        
+        for(auto it = map.begin(); it != map.end(); it++){
+            if(it->second != INT_MIN && (it->first - it->second) < diff){
+                diff = (it->first - it->second);
+                l = it->first;
+                w = it->second;
+            }
+        }
+        
+        vector<int> res;
+        res.push_back(l);
+        res.push_back(w);
+        return res;
+        
+    }
+};
+
+
+class Solution {
+public:
+    vector<int> constructRectangle(int area) {
+        unordered_map<int, int> map;
+        int diff = INT_MAX;
+        int l = 0, w = 0;
+        for(int i = area; i >= 1; i--){
+            if(i < area/i)
+                break;
+            int temp = area % i;    
+            if(temp != 0)
+                continue;
+            map[i] = area/i;
+        }
+        
+        for(auto it = map.begin(); it != map.end(); it++){
+            if((it->first - it->second) < diff){
+                diff = (it->first - it->second);
+                l = it->first;
+                w = it->second;
+            }
+        }
+        
+        vector<int> res;
+        res.push_back(l);
+        res.push_back(w);
+        return res;
+        
+    }
+};
+
+
+class Solution {
+public:
+    vector<int> constructRectangle(int area) {
+        vector<int> res;
+        int sqr = sqrt(area);
+        if(sqr * sqr == area){
+            res.push_back(sqr);
+            res.push_back(sqr);
+            return res;
+        }
+        
+        for(int i = sqr + 1; i <= area; i++){
+            if(area%i == 0){
+                res.push_back(i);
+                res.push_back(area/i);
+                break;
+            }
+        }
+        
+        return res;
+    }
+};
