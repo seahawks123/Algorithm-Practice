@@ -1,0 +1,23 @@
+class Solution {
+private:
+    bool helper(int left, bool myturn){
+        if(left<=3 && myturn)
+            return true;
+        if(left<=3 && !myturn)
+            return false;
+        return helper(left - 1, !myturn) || helper(left - 2, !myturn) || helper(left - 3, !myturn);
+    }
+    
+public:
+    bool canWinNim(int n) {
+        return helper(n, true);    
+    }
+};
+
+
+class Solution {
+public:
+    bool canWinNim(int n) {
+        return n%4 != 0;   
+    }
+};
