@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        vector<int> vec(26, INT_MAX);
+        for(int i = 0; i < s.length(); i++){
+            int temp = s[i] - 'a';
+            if(vec[temp] == -1)
+                continue;
+            if(vec[temp] == INT_MAX){
+                vec[temp] = i;
+            }
+            else{
+                vec[temp] = -1;
+            }
+        }
+        
+        int res = INT_MAX;
+        for(int i = 0; i < vec.size(); i++){
+            if(vec[i] != INT_MAX && vec[i] != -1 && vec[i] < res){
+                res = vec[i];    
+            }
+            
+        }
+        return res == INT_MAX?-1:res;
+    }
+};
