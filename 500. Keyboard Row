@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<string> findWords(vector<string>& words) {
+        unordered_set<char> s1 = {'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'};
+        unordered_set<char> s2 = {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'};
+        unordered_set<char> s3 = {'z', 'x', 'c', 'v', 'b', 'n', 'm'};
+        vector<string> res;
+        for(int i = 0; i < words.size(); i++){
+            string cur = words[i];
+            if(cur.length() == 0)
+                continue;
+                
+            if(s1.count(tolower(cur[0]))){
+                int j = 1;
+                for(; j < cur.size(); j++){
+                    if(!s1.count(tolower(cur[j])))
+                    break;
+                }
+                if(j == cur.size())
+                    res.push_back(cur);
+            }
+            
+            else if(s2.count(tolower(cur[0]))){
+                int j = 1;
+                for(; j < cur.size(); j++){
+                    if(!s2.count(tolower(cur[j])))
+                    break;
+                }
+                
+                if(j == cur.size()){
+                    res.push_back(cur);
+                }
+            }
+            else if(s3.count(tolower(cur[0]))){
+                int j = 1;
+                for(; j < cur.size(); j++){
+                    if(!s3.count(tolower(cur[j])))
+                    break;
+                }
+                if(j == cur.size())
+                    res.push_back(cur);
+            }
+        }
+        return res;
+    }
+};
