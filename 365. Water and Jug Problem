@@ -1,0 +1,12 @@
+class Solution {
+private:
+    int gcd(int a, int b){
+        if(b == 0)
+            return a;
+        return gcd(b, a%b);
+    }
+public:
+    bool canMeasureWater(int x, int y, int z) {
+        return (z == 0 ||(x + y >= z && (z%gcd(x, y) == 0)));    
+    }
+};
