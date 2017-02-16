@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int len = s.length();
+        vector<int> dp(len + 1, 0);
+        dp[0] = 1;
+        for(int i = 1; i <= len; i++){
+            for(int j = i - 1; j >= 0; j--){
+                if(dp[j] == 1){
+                    string temp = s.substr(j, i-j);
+                    for(int k = 0; k < wordDict.size(); k++){
+                        if(temp == wordDict[k]){
+                            dp[i] = 1;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return dp[len];
+    }
+};
