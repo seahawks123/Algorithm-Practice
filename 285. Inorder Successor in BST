@@ -1,0 +1,71 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    void helper(TreeNode* root, vector<TreeNode*>& vec){
+        if(!root)
+            return;
+        helper(root->left, vec);
+        vec.push_back(root);
+        helper(root->right, vec);
+    }
+    
+public:
+    TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
+        vector<TreeNode*> vec;
+        helper(root, vec);
+        for(int i = 0; i < vec.size(); i++){
+            if(vec[i] == p){
+                int last_index = vec.size() - 1;
+                return (i == last_index?NULL:vec[i+1]);
+            }
+        }
+        return NULL;
+    }
+};
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
+        TreeNode* res = NULL;
+        if(p->right){
+            root = p->right;
+            while(root){
+                res = root;
+                root = root->left;
+            }
+        }
+        else{
+            while(root){
+                if(p->val < root->val){
+                    res = root;
+                    root = root->left;
+                }
+                else if(p->val > root->val){
+                    root = root->right;
+                }
+                else
+                    break;
+            }    
+        }
+        return res;
+    }
+};
