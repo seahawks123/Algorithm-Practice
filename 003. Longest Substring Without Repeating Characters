@@ -32,3 +32,47 @@ public:
         return global_max;
     }
 };
+
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int left = 0, right = 0, res = 0;
+        unordered_set<int> ss;
+        while(right < s.size()){
+            if(ss.count(s[right]) == 0){
+                ss.insert(s[right]);
+                right++;
+            }
+            else{
+                while(s[left] != s[right]){
+                    ss.erase(s[left]);
+                    left++;
+                }
+                ss.erase(s[left]);
+                left++;
+            }
+            res = max(res, right - left);
+        }
+        return res;
+    }
+};
+
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int left = 0, res = 0;
+        vector<int> vec(256, -1);
+        for(int i = 0; i < s.size(); i++){
+            if(vec[s[i]] != -1 && vec[s[i]] >= left){
+                left = vec[s[i]] + 1;
+            }
+            vec[s[i]] = i;
+            res = max(res, i - left + 1);
+        }
+        return res;
+    }
+};
