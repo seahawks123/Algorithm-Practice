@@ -1,0 +1,69 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    bool same_val(TreeNode* root, int v){
+        if(!root)
+            return true;
+        if(root->val != v)
+            return false;
+        return same_val(root->left, v) && same_val(root->right, v);
+    }
+    
+public:
+    int countUnivalSubtrees(TreeNode* root) {
+        if(!root)
+            return 0;
+        if(!root->left && !root->right)
+            return 1;
+        int left = countUnivalSubtrees(root->left);
+        int right = countUnivalSubtrees(root->right);
+        int temp = 0;
+        if(same_val(root->left, root->val) && same_val(root->right, root->val))
+            temp = 1;
+        return left + right + temp;
+    }
+};
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    bool helper(TreeNode* root, int& val){
+        if(!root)
+            return true;
+        int left = helper(root->left, val);
+        int right = helper(root->right, val);
+        if(left && right){
+            if(root->left && root->left->val != root->val)
+                return false;
+            if(root->right && root->right->val != root->val)
+                return false;
+            val++;
+            return true;
+        }
+        return false;
+    }
+    
+public:
+    int countUnivalSubtrees(TreeNode* root) {
+        int count = 0;
+        helper(root, count);
+        return count;
+    }
+};
