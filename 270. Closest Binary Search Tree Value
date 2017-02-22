@@ -1,0 +1,83 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    void helper(TreeNode* root, double target, int& res, double& diff){
+        if(!root)
+            return;
+        helper(root->left, target, res, diff);
+        if(diff == 99999999.99){
+            res = root->val;
+            diff = abs(double(root->val) - target);
+        }
+        else{
+            if(abs(double(root->val) - target) < diff){
+                res = root->val;
+                diff = abs(double(root->val) - target);
+            }
+        }
+        helper(root->right, target, res, diff);
+    }
+public:
+    int closestValue(TreeNode* root, double target) {
+        int res = 0;
+        double diff = 99999999.99;
+        helper(root, target, res, diff);
+        return res;
+        
+    }
+};
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int closestValue(TreeNode* root, double target) {
+        int res = root->val;
+        while(root){
+            if(abs(double(res) - target) > abs(double(root->val) - target)){
+                res = root->val;    
+            }   
+            root = (root->val>target?root->left:root->right);
+        }
+        return res;
+    }
+};
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int closestValue(TreeNode* root, double target) {
+        TreeNode* next = ((target > root->val)? root->right:root->left);
+        if(!next)
+            return root->val;
+        int temp = (closestValue(next, target));
+        return (abs(double(temp) - target) > abs(double(root->val) - target)?root->val:temp);
+    }
+};
+
+
