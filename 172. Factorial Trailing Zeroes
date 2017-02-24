@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        int count = 0;
+        long long fac = 5;
+        while(n >= fac){
+            count += n/fac;
+            fac *= 5;
+        }
+        return count;
+    }
+};
+
+
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        int count = 0;
+        while(n){
+            count += n/5;
+            n = n/5;
+        }
+        return count;
+    }
+};
