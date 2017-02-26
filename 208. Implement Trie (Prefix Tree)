@@ -1,0 +1,127 @@
+class Trie {
+private:
+    
+    struct compare {
+        bool operator() (const pair<int,int> &lhs, const pair<int,int> &rhs) const{
+            return (lhs.second-lhs.first > rhs.second-rhs.first);
+    }
+    
+    unordered_set<pair<string, int>, compare> s;
+    
+    
+};
+public:
+    /** Initialize your data structure here. */
+    Trie() {
+        s.clear();
+    }
+    
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+        for(int i = 1; i < word.length(); i++){
+            string temp = word.substr(0, i);
+            pair<string, int> p = make_pair(temp, 0);
+            //s.count(p);
+            //if(!s.count(p)){
+             //   s.insert(p);
+            //}
+        }
+        /*if(!s.count(make_pair(word, 1))){
+            s.insert(make_pair(word, 1));
+        }*/
+        
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+        //return s.count(make_pair(word, 1))?true:false;   
+        return true;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+       // return s.count(make_pair(prefix, 0))?true:false;
+       return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * bool param_2 = obj.search(word);
+ * bool param_3 = obj.startsWith(prefix);
+ */
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ class Trie {
+private:
+    struct TrieNode{
+        unordered_map<char, TrieNode*> map;
+        bool word;
+    };
+    
+    TrieNode* root;
+
+public:
+    /** Initialize your data structure here. */
+    Trie() {
+        root = new TrieNode();        
+    }
+    
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+        TrieNode* cur = root;
+        for(int i = 0; i < word.size(); i++){
+            if(cur->map.count(word[i])){
+                cur = cur->map[word[i]];        
+            }   
+            else{
+                TrieNode* temp = new TrieNode();
+                cur->map[word[i]] = temp;
+                cur = temp;
+            }
+            if(i == word.size() - 1)
+                cur->word = true;
+        }    
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+        TrieNode* cur = root;
+        for(int i = 0; i < word.size(); i++){
+            if(cur->map.count(word[i]) == 0){
+                return false;
+            }
+            cur = cur->map[word[i]];
+            if(i == word.size() - 1)
+                return cur->word;
+        }
+        return false;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+       TrieNode* cur = root;
+        for(int i = 0; i < prefix.size(); i++){
+            if(cur->map.count(prefix[i]) == 0){
+                return false;
+            }
+            cur = cur->map[prefix[i]];
+        }
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * bool param_2 = obj.search(word);
+ * bool param_3 = obj.startsWith(prefix);
+ */
