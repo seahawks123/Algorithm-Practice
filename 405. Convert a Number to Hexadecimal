@@ -1,0 +1,28 @@
+class Solution {
+public:
+    string toHex(int num) {
+        string res;
+        uint32_t mask = 15;
+        int count = 0;
+        while(num && count < 8){
+            int temp = num & mask;
+            if(temp >= 0 && temp <= 9){
+                char c = temp + 48;
+                string res1;
+                res1.push_back(c);
+                res = res1 + res;
+            }
+            else{
+                
+                char c = temp - 10 + 97;
+                string res1;
+                res1.push_back(c);
+                res = res1 + res;
+                cout<<c<<", "<<res<<", "<<num<<endl;
+            }
+            num = num >> 4;
+            count++;
+        }
+        return res==""?"0":res;
+    }
+};
