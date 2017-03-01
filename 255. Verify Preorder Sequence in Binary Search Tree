@@ -1,0 +1,51 @@
+class Solution {
+private:
+    bool helper(vector<int>& preorder, int left, int right){
+        if(left > right)
+            return true;
+        if(left == right || left == right - 1){
+            return true;
+        }
+        int root = preorder[left];
+        int count = 0;
+        bool flag = false;
+        for(int i = left + 1; i <= right; i++){
+            if(flag && preorder[i] < root){
+                return false;    
+            }
+            if(preorder[i] < root){
+                count++;    
+            }
+            else{
+                flag = true;
+            }
+        }
+        return helper(preorder, left + 1, left + count) && helper(preorder, left + 1 + count, right);    
+    }
+    
+public:
+    bool verifyPreorder(vector<int>& preorder) {
+        if(preorder.size() <= 1)
+            return true;
+        return helper(preorder, 0, preorder.size() - 1);
+    }
+};
+
+
+class Solution {
+public:
+    bool verifyPreorder(vector<int>& preorder) {
+        stack<int> s;
+        int _min = INT_MIN;
+        for(int i = 0; i < preorder.size(); i++){
+            if(preorder[i] < _min)
+                return false;
+            while(!s.empty() && s.top() < preorder[i]){
+                _min = s.top();
+                s.pop();
+            }
+            s.push(preorder[i]);
+        }
+        return true;
+    }
+};
