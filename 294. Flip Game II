@@ -1,0 +1,96 @@
+class Solution {
+private:
+    bool can_flip(string s){
+        for(int i = 0; i < s.size() - 1; i++){
+            if(s[i] == '+' && s[i+1] == '+'){
+                return true;
+            }        
+        }    
+        return false;
+    }
+    
+    vector<string> generatePossibleNextMoves(string s) {
+        vector<string> res;
+        if(s.length() < 2)
+            return res;
+        for(int i = 0; i < s.length() - 1; i+=1){
+            if(s.substr(i, 2) == "++"){
+                string temp = s;
+                temp[i] = '-';
+                temp[i+1] = '-';
+                res.push_back(temp);
+            }
+        }
+        return res;
+    }
+    
+public:
+    bool canWin(string s) {
+       
+        if(!can_flip(s))
+            return false;
+        vector<string> res = generatePossibleNextMoves(s);
+        for(int i = 0; i < res.size(); i++){
+            bool temp = canWin(res[i]);
+            if(temp == false)
+                return true;
+        }
+        return false;
+    }
+};
+
+
+
+
+
+
+
+class Solution {
+public:
+    bool canWin(string s) {
+        if(s.size() <= 1)
+            return false;
+        for(int i = 0; i < s.size() - 1; i++){
+            if(s.substr(i, 2) == "++"){
+                s[i] = '-';
+                s[i+1] = '-';
+                if(!canWin(s))
+                    return true;
+                s[i] = '+';
+                s[i+1] = '+';
+            }    
+        }
+        return false;
+    }
+};
+
+
+
+
+
+
+class Solution {
+private:
+    unordered_map<string, bool> map;
+public:
+    bool canWin(string s) {
+        if(s.size() <= 1)
+            return false;
+        if(map.count(s))
+            return map[s];
+        for(int i = 0; i < s.size() - 1; i++){
+            if(s.substr(i, 2) == "++"){
+                s[i] = '-';
+                s[i+1] = '-';
+                if(!canWin(s)){
+                    map[s] = false;
+                    return true;
+                }
+                s[i] = '+';
+                s[i+1] = '+';
+                map[s] = true;
+            }    
+        }
+        return false;
+    }
+};
