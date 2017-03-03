@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<vector<int>> multiply(vector<vector<int>>& A, vector<vector<int>>& B) {
+        if(A.size() == 0 || B.size() == 0)
+            return {};
+        vector<vector<int>> res(A.size(), vector<int>(B[0].size(), 0)); 
+        unordered_map<int, vector<int>> mapA;
+        unordered_map<int, vector<int>> mapB;
+        
+        int m = A.size(), n = A[0].size(), p = B.size(), q = B[0].size();
+        
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(A[i][j]){
+                    mapA[i] = A[i];
+                    break;
+                }        
+            }
+        }
+        
+        for(int j = 0; j < q; j++){
+            for(int i = 0; i < p; i++){
+                if(B[i][j]){
+                    vector<int> col(p, 0);
+                    for(int k = 0; k < p; k++){
+                        col[k] = B[k][j]; 
+                    }
+                    mapB[j] = col;
+                    break;
+                }
+            }
+        }
+        
+        for(auto it = mapA.begin(); it != mapA.end(); it++){
+            int i = it->first;
+            vector<int> row = it->second;
+            for(auto itt = mapB.begin(); itt != mapB.end(); itt++){
+                int j = itt->first;
+                vector<int> col = itt->second;
+                res[i][j] = inner_product(row.begin(), row.end(), col.begin(), 0);
+            }
+        }
+        
+        return res;
+    }
+};
