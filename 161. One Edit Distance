@@ -1,0 +1,58 @@
+class Solution {
+public:
+    bool isOneEditDistance(string s, string t) {
+        if(s == t)
+            return false;
+        vector<int> vec(26, 0);
+        if(abs(s.length() - t.length()) > 1)
+            return false;
+        if(s.length() < t.length()){
+            s.swap(t);
+        }
+        for(int i = 0; i < s.size(); i++){
+            vec[s[i] - 'a']++;
+        }
+        for(int i = 0; i < t.length(); i++){
+            vec[t[i] - 'a']--;
+        }
+        int sum = 0
+        for(int i = 0; i < vec.size(); i++){
+            sum += vec[i];    
+        }
+        if(sum == 1 || sum == 0)
+            return true;
+        else
+            return false;
+        
+    }
+};
+
+
+
+ bool isOneDifL(string s, string t)
+    {
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (s[i] == t[i])
+                continue;
+            return s.substr(i) == t.substr(i+1);
+        }
+        return true; // 说明前面的都相等只有最后一个不匹配
+    }
+    bool isSameLen(string s, string t)
+    {
+        int cnt = 0;
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (s[i] != t[i])
+                cnt++;
+        }
+        return cnt == 1;
+    }
+    bool isOneEditDistance(string s, string t)
+    {
+        if (abs(s.size() - t.size()) > 1) return false;
+        if (s.size() == t.size()) return isSameLen(s, t);
+        else if (s.size() < t.size()) return isOneDifL(s, t);
+        else return isOneDifL(t, s);
+    }
