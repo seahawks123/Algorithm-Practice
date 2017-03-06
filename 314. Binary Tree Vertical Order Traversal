@@ -1,0 +1,79 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+
+private:
+    void dfs(TreeNode* root, map<int, vector<pair<int, int>>>& m, int level, int height){
+        if(!root)
+            return;
+        m[level].push_back(make_pair(height, root->val)); 
+        dfs(root->left, m, level - 1, height + 1);
+        dfs(root->right, m, level + 1, height + 1);
+    }
+    
+public:
+    vector<vector<int>> verticalOrder(TreeNode* root) {
+        if(!root)
+            return {};
+        map<int, vector<pair<int, int>>> m;
+        dfs(root, m, 0, 0);
+        int offset = 0 - m.begin()->first;
+        vector<vector<int>> res(1 + offset + m.rbegin()->first, vector<int>());
+        for(auto it = m.begin(); it != m.end(); it++){
+            int index = it->first + offset;
+            vector<pair<int, int>> temp = it->second;
+            sort(temp.begin(), temp.end());
+            for(int i = 0; i < temp.size(); i++){
+                res[index].push_back(temp[i].second);    
+            }
+        }
+        return res;
+        
+    }
+};
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> verticalOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        if(!root)
+            return res;
+        map<int, vector<int>> m;
+        queue<pair<TreeNode*, int>> q;
+        q.push(make_pair(root, 0));
+        while(!q.empty()){
+            auto cur = q.front();
+            q.pop();
+            m[cur.second].push_back(cur.first->val);
+            if(cur.first->left){
+                q.push(make_pair(cur.first->left, cur.second-1));
+            }
+            if(cur.first->right){
+                q.push(make_pair(cur.first->right, cur.second+1));
+            }
+        }
+        for(auto it:m){
+            res.push_back(it.second);
+        }
+        return res;
+        
+    }
+};
