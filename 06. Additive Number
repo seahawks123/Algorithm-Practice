@@ -1,0 +1,59 @@
+class Solution {
+private:
+    string add(string& s1, string& s2){
+        string res = "";
+        int carry = 0, l1 = s1.size(), l2 = s2.size();
+        while(l1 || l2){
+            int val = 0;
+            if(l1){
+                val += s1[l1-1]-'0';
+                l1--;
+            }
+            if(l2){
+                val += s2[l2-1]-'0';
+                l2--;
+            }
+            res += to_string((val+carry)%10);
+            carry = (val + carry)/10;
+        }
+        if(carry == 1){
+            res += "1";
+        }
+        reverse(res.begin(), res.end());
+        return res;
+    }
+    
+    bool dfs(string& s1, string& s2, string& s3){
+        if(s3.size() == 0)
+            return true;
+        string sum = add(s1, s2);
+        for(int i = 1; i <= s3.size(); i++){
+            string cur = s3.substr(0, i);
+            string next = s3.substr(i);
+            if(cur == sum && dfs(s2, cur, next))
+                return true;
+            if(s3[0] == '0')
+                return false;
+            
+        }
+        return false;
+    }
+    
+public:
+    bool isAdditiveNumber(string num) {  
+        if(num.size() < 3) return false;  
+        int len = num.size();  
+        for(int i = 1; i <= len-2; i++)  
+        {  
+            string num1=num.substr(0, i);  
+            for(int j = i+1; j <= len-1; j++ )  
+            {  
+                string num2 =num.substr(i, j-i), num3=num.substr(j);  
+                if(dfs(num1, num2, num3)) return true;  
+                if(num[i] == '0') break;  
+            }  
+            if(num[0] == '0') break;  
+        }  
+        return false;  
+    }  
+};
