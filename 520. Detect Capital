@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool detectCapitalUse(string word) {
+        if(word.size() <= 1)
+            return true;
+        bool first = word[0] >= 'a' && word[0] <= 'z'?false:true;
+        bool second = word[1] >= 'a' && word[1] <= 'z'?false:true;
+        if(first && second){
+            for(int i = 2; i < word.size(); i++){
+                if(word[i] >= 'a' && word[i] <= 'z')
+                    return false;
+            }        
+        }
+        else if((first && !second) || (!first && !second)){
+            for(int i = 2; i < word.size(); i++){
+                if(word[i] >= 'A' && word[i] <= 'Z')
+                    return false;
+            }
+        }
+        else if(!first && second){
+            return false;
+        }
+        return true;
+    }
+};
