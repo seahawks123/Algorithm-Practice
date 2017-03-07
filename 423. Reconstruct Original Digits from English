@@ -1,0 +1,52 @@
+class Solution {
+public:
+    string originalDigits(string s) {
+        vector<int> letters(26, 0);
+        vector<int> vec(10, 0);
+        string res = "";
+        for(int i = 0; i < s.size(); i++){
+            if(s[i] == 'z'){
+                vec[0]++;    
+            }   
+            else if(s[i] == 'w'){
+                vec[2]++;
+            }
+            else if(s[i] == 'u'){
+                vec[4]++;
+            }
+            else if(s[i] == 'x'){
+                vec[6]++;
+            }
+            else if(s[i] == 'g'){
+                vec[8]++;
+            }
+            else if(s[i] == 'o'){
+                letters[s[i]-'a']++;
+            }
+            else if(s[i] == 'h'){
+                letters[s[i] - 'a']++;
+            }
+            else if(s[i] == 'f'){
+                letters[s[i] - 'a']++;
+            }
+            else if(s[i] == 's'){
+                letters[s[i] - 'a']++;
+            }
+            else if(s[i] == 'i'){
+                letters[s[i] - 'a']++;
+            }
+        }
+        vec[1] = letters['o' - 'a'] - vec[0] - vec[2] - vec[4];
+        vec[3] = letters['h' - 'a'] - vec[8];
+        vec[5] = letters['f' - 'a'] - vec[4];
+        vec[7] = letters['s' - 'a'] - vec[6];
+        vec[9] = letters['i' - 'a'] - vec[6] - vec[8] - vec[5];
+        
+        for(int i = 0; i < 10; i++){
+            for(int j = 0; j < vec[i]; j++){
+                res.push_back(i + '0');
+            }
+        }
+        return res;
+    }
+};
