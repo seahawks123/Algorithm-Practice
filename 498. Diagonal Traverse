@@ -1,0 +1,57 @@
+class Solution {
+public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& matrix) {
+        vector<int> res;
+        if(matrix.size() == 0 || matrix[0].size() == 0)
+            return res;
+        int row = matrix.size(), col = matrix[0].size();
+        int count = 0;
+        bool up = true;
+        int i = 0, j = 0;
+        while(count < row*col){
+            if(up){
+                while(i >= 0 && j < col){
+                    res.push_back(matrix[i][j]);
+                    count++;
+                    i--;
+                    j++;
+                }
+                if(count == row*col)
+                    break;
+                else{
+                    if(j < col){
+                        i = 0;
+                        up = !up;
+                    }
+                    else{
+                        i += 2;
+                        j--;
+                        up = !up;
+                    }
+                }
+            }
+            else if(!up){
+                while(i < row && j >= 0){
+                    res.push_back(matrix[i][j]);
+                    count++;
+                    i++;
+                    j--;
+                }
+                if(count == row*col)
+                    break;
+                else{
+                    if(i < row){
+                        j = 0;
+                        up = !up;
+                    }
+                    else{
+                        j += 2;
+                        i = row - 1;
+                        up = !up;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+};
