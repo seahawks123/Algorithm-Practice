@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int titleToNumber(string s) {
+        int res = 0, base = 1;
+        while(!s.empty()){
+            char c = s.back();  
+            res += (c - 'A' + 1)*base;
+            base *= 26;
+            s.pop_back();
+        }
+        return res;
+    }
+};
