@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<string> findMissingRanges(vector<int>& nums, int lower, int upper) {
+        vector<string> res;
+        vector<long> vec(nums.size(), 0);
+        for(int i = 0; i < nums.size(); i++){
+            vec[i] = (long)nums[i];
+        }
+        vec.insert(vec.begin(), (long)lower - 1);
+        vec.push_back((long)upper + 1);
+        for(int i = 1; i < vec.size(); i++){
+            if((vec[i] == vec[i-1]) || (vec[i] - 1 == vec[i-1]))
+                continue;
+            else{
+                if(vec[i] == vec[i-1]+2){
+                    int temp = vec[i] - 1;
+                    string s = to_string(temp);
+                    res.push_back(s);
+                }
+                else{
+                    int low = vec[i-1] + 1, high = vec[i] - 1;
+                    string s1 = to_string(low), s2 = to_string(high);
+                    s1 = s1 + "->" + s2;
+                    res.push_back(s1);
+                }
+            }
+        }
+        return res;
+    }
+};
