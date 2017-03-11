@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int shortestWordDistance(vector<string>& words, string word1, string word2) {
+        unordered_map<string, vector<int>> map;
+        for(int i = 0; i < words.size(); i++){
+            map[words[i]].push_back(i);
+        }
+        int i = 0, j = 0;
+        int res = INT_MAX;
+        while(i < map[word1].size() && j < map[word2].size()){
+            if(map[word1][i] != map[word2][j]){
+                res = min(res, abs(map[word1][i] - map[word2][j]));           
+            }    
+            map[word1][i] < map[word2][j]?i++:j++;
+        }
+        return res;
+    }
+};
