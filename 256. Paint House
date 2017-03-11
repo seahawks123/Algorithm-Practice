@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int minCost(vector<vector<int>>& costs) {
+        int m = costs.size();
+        if(m == 0)
+            return 0;
+        int n = costs[0].size();
+        if(n == 0)
+            return 0;
+        vector<vector<int>> dp(m+1, vector<int>(2, 0));
+        dp[0][1] = -1;
+        for(int i = 1; i <= m; i++){
+            int res = INT_MAX;
+            int col = -1;
+            for(int j = 0; j < n; j++){
+                if(costs[i-1][j] < res && dp[i-1][1] != j){
+                    res = costs[i-1][j];
+                    col = j;
+                }
+            }
+            dp[i][0] = dp[i-1][0] + res;
+            dp[i][1] = col;
+        }
+        return dp[m][0];
+    }
+};
+
+class Solution {
+public:
+    int minCost(vector<vector<int>>& costs) {
+        int m = costs.size();
+        if(m == 0)
+            return 0;
+        int n = costs[0].size();
+        if(n == 0)
+            return 0;
+        vector<int>
+        for(int i = 1; i <= m; i++){
+            for(int j = 0; j < n; j++){
+                int temp = dp[i-1][j];
+                dp[i-1][j] = INT_MAX;
+                int val = INT_MAX;
+                for(int k = 0; k < n; k++){
+                    val = min(val, dp[i-1][k]);                  
+                }   
+                dp[i-1][j] = temp;
+                dp[i][j] = val + costs[i-1][j];
+            }
+        }
+        int res = INT_MAX;
+        for(int k = 0; k < n; k++){
+            res = min(res, dp[m][k]);                  
+        } 
+        return res;
+    }
+};
