@@ -1,0 +1,28 @@
+class WordDistance {
+private:
+    unordered_map<string, vector<int>> map;
+    
+public:
+    WordDistance(vector<string> words) {
+        for(int i = 0; i < words.size(); i++){
+            map[words[i]].push_back(i);
+        }        
+    }
+    
+    int shortest(string word1, string word2) {
+        int i = 0, size1 = map[word1].size(), j = 0, size2 = map[word2].size(), res = INT_MAX;
+        while(i < size1 && j < size2){
+            if(map[word1][i] != map[word2][j]){
+                res = min(res, abs(map[word1][i] - map[word2][j]));
+            }
+            map[word1][i] < map[word2][j]?i++:j++;
+        }
+        return res;
+    }
+};
+
+/**
+ * Your WordDistance object will be instantiated and called as such:
+ * WordDistance obj = new WordDistance(words);
+ * int param_1 = obj.shortest(word1,word2);
+ */
