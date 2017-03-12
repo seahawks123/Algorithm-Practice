@@ -1,0 +1,47 @@
+class Solution {
+unordered_map<string, bool> map;
+private:
+    bool dfs(vector<int>& vec, int target, int sum, string& mask){
+        if(map.count(mask))
+            return map[mask];
+        for(int i = 0; i < vec.size(); i++){
+            int temp = vec[i];
+            if(vec[i] == -1)
+                continue;
+            else{
+                sum += vec[i];
+                if(sum >= target){
+                    map[mask] = true;
+                    return true;
+                }
+                vec[i] = -1;
+                mask[i] = '0';
+                if(!dfs(vec, target, sum, mask)){
+                    mask[i] = '1';
+                    vec[i] = temp;
+                    map[mask] = true;
+                    return true;
+                }
+                sum -= temp;
+                vec[i] = temp;
+                mask[i] = '1';
+            }     
+        }
+        map[mask] = false;
+        return false;
+    }
+public:
+    bool canIWin(int maxChoosableInteger, int desiredTotal) {
+        if(maxChoosableInteger >= desiredTotal)
+            return true;
+        if (maxChoosableInteger * (maxChoosableInteger + 1) / 2 < desiredTotal) 
+            return false;
+        vector<int> vec(maxChoosableInteger, 0);
+        string mask = "";
+        for(int i = 0; i < vec.size(); i++){
+            vec[i] = i + 1;
+            mask.push_back('1');
+        }
+        return dfs(vec, desiredTotal, 0, mask);
+    }
+};
