@@ -1,0 +1,101 @@
+class Solution {
+private:
+    bool isStrobogrammatic(string num) {
+        if(num.size() == 0)
+            return true;
+        int low = 0, high = num.size()-1;
+        while(low <= high){
+            if(low == high){
+                if(num[low] != '1' && num[low] != '0' && num[low] != '8'){
+                    return false;
+                }
+                    
+            }    
+            else{
+                if((num[low] == '1' && num[high] == '1') || (num[low] == '0' && num[high] == '0') || (num[low] == '8' && num[high] == '8') || (num[low] == '6' && num[high] == '9') || (num[low] == '9' && num[high] == '6')){
+                    low++;
+                    high--;
+                    continue;
+                }
+                else{
+                    return false;
+                }
+                    
+            }
+            low++;
+            high--;
+        }
+        return true;
+    }
+    
+    bool lead_zeros(string s){
+        bool flag = false;
+        for(int i = 0; i < s.size(); i++){
+            if(s[i] != '0'){
+                if(flag)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                flag = true;
+        }
+        return s.size() == 1?false:true;
+    }
+    
+    void dfs(vector<int>& vec, int n, string& cur, vector<string>& res){
+        if(cur.size() > n)
+            return;
+        if(cur.size() == n){
+            if(isStrobogrammatic(cur) && !lead_zeros(cur))
+                res.push_back(cur);
+            return;
+        }
+        for(int i = 0; i < vec.size(); i++){
+            cur += to_string(vec[i]);
+            dfs(vec, n, cur, res);
+            cur.pop_back();
+        }
+    }
+    
+public:
+    vector<string> findStrobogrammatic(int n) {
+        int arr[] = {0, 1, 6, 9, 8};
+        vector<int> vec(arr, arr + sizeof(arr)/sizeof(arr[0]));
+        string cur = "";
+        vector<string> res;
+        dfs(vec, n, cur, res);
+        return res;
+    }
+};
+
+
+class Solution {
+private:
+    vector<string> dfs(int n, int m){
+        if(n == 0){
+            vector<string> vec = {""};
+            return vec;
+        }
+        if(n == 1){
+            vector<string> vec = {"0", "1", "8"};
+            return vec;    
+        }
+        vector<string> prev = dfs(n-2, m);
+        vector<string> res;
+        for(int i = 0; i < prev.size(); i++){
+            if(n != m){
+                res.push_back("0" + prev[i] + "0");
+            } 
+            res.push_back("1" + prev[i] + "1");
+            res.push_back("8" + prev[i] + "8");
+            res.push_back("6" + prev[i] + "9");
+            res.push_back("9" + prev[i] + "6");
+        }    
+        return res;
+    }
+public:
+    vector<string> findStrobogrammatic(int n) {
+        return dfs(n, n);    
+    }
+};
