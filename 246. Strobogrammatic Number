@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool isStrobogrammatic(string num) {
+        if(num.size() == 0)
+            return true;
+        int low = 0, high = num.size()-1;
+        while(low <= high){
+            if(low == high){
+                if(num[low] != '1' && num[low] != '0' && num[low] != '8'){
+                    return false;
+                }
+                    
+            }    
+            else{
+                if((num[low] == '1' && num[high] == '1') || (num[low] == '0' && num[high] == '0') || (num[low] == '8' && num[high] == '8') || (num[low] == '6' && num[high] == '9') || (num[low] == '9' && num[high] == '6')){
+                    low++;
+                    high--;
+                    continue;
+                }
+                else{
+                    return false;
+                }
+                    
+            }
+            low++;
+            high--;
+        }
+        return true;
+    }
+};
