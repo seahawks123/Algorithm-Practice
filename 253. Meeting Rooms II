@@ -1,0 +1,72 @@
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+private:
+    static bool cmp(Interval& a, Interval& b){
+         return a.start <= b.start?true:false;
+    }
+    
+public:
+    int minMeetingRooms(vector<Interval>& intervals) {
+        sort(intervals.begin(), intervals.end(), cmp);
+        multiset<int> s;
+        for(int i = 0; i < intervals.size(); i++){
+            if(i == 0){
+                s.insert(intervals[i].end);
+                continue;
+            }
+            bool flag = false;
+            for(auto it = s.rbegin(); it != s.rend(); it++){
+                if(*it < intervals[i].start){
+                    s.erase(*it);
+                    s.insert(intervals[i].end);
+                    flag = true;
+                }
+            }
+            if(!flag)
+                s.insert(intervals[i].end);
+        }
+        return s.size();
+    }
+};
+
+
+
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+private:
+    static bool cmp(Interval& a, Interval& b){
+         return a.start <= b.start?true:false;
+    }
+    
+public:
+    int minMeetingRooms(vector<Interval>& intervals) {
+        sort(intervals.begin(), intervals.end(), cmp);
+        multiset<int> s;
+        int res = INT_MIN;
+        for(int i = 0; i < intervals.size(); i++){
+            Interval cur = intervals[i];
+            while(!s.empty() && *s.begin() <= cur.start){
+                s.erase(s.begin());
+            }
+            s.insert(cur.end);
+            res = max(res, (int)s.size());
+        }
+        return res == INT_MIN?0:res;
+    }
+};
