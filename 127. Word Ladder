@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        queue<string> cur;
+        cur.push(beginWord);
+        int level = 2;
+        unordered_map<string, int> level_map;
+        level_map[beginWord] = 1;
+        unordered_set<string> s(wordList.begin(), wordList.end());
+        while(!cur.empty()){
+            queue<string> next;
+            while(!cur.empty()){
+                string q_top = cur.front();
+                cur.pop();
+                if(q_top == endWord)
+                    return level-1;
+                for(int p = 0; p < q_top.size(); p++){
+                    string temp = q_top;
+                    for(int q = 0; q < 26; q++){
+                        temp[p] = 'a' + q;
+                        if(level_map.count(temp) == 0 && s.count(temp) == 1){
+                            next.push(temp);
+                            level_map[temp] = level;
+                        } 
+                    }    
+                }
+            }
+            swap(cur, next);
+            level++;
+        }
+        return 0;
+    }
+};
