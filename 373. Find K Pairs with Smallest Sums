@@ -1,0 +1,23 @@
+class Solution {
+private:
+    static bool cmp(pair<int, int>& p1, pair<int, int>& p2){
+        return (p1.first + p1.second) < (p2.first + p2.second);    
+    }
+    
+public:
+    vector<pair<int, int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        vector<pair<int, int>> res;
+        if(nums1.size() == 0 || nums2.size() == 0)
+            return res;
+        for(int i = 0; i < min((int)nums1.size(), k); i++){
+            for(int j = 0; j < min((int)nums2.size(), k); j++){
+                res.push_back({nums1[i], nums2[j]});
+            }
+        }
+        
+        sort(res.begin(), res.end(), cmp);
+        if(res.size() > k)
+            res.erase(res.begin() + k, res.end());
+        return res;
+    }
+};
