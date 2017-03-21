@@ -1,0 +1,27 @@
+class Solution {
+public:
+    string countAndSay(int n) {
+        int count = 0;
+        string res = "1";
+        res.push_back('!');
+        while(count < n - 1){
+            int temp = 1;
+            string s = "";
+            for(int i = 0; i < res.size() - 1; i++){
+                if(res[i] == res[i+1])
+                    temp++;
+                else{
+                    string ss = "";
+                    ss.push_back(res[i]);
+                    s = s + to_string(temp) + ss;
+                    temp = 1;
+                }
+            }
+            res = s;
+            res.push_back('!');
+            count++;
+        }
+        res.pop_back();
+        return res;
+    }
+};
