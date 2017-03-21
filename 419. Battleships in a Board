@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int countBattleships(vector<vector<char>>& board) {
+        int m = board.size();
+        if(m == 0)
+            return 0;
+        int n = board[0].size();
+        if(n == 0)
+            return 0;
+        int count = 0;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(board[i][j] == '#' || board[i][j] == '.')
+                    continue;
+                else{
+                    count++;
+                    int row = i, col = j, col_runner = j + 1, row_runner = i + 1;
+                    while(col_runner < n && board[row][col_runner] != '.'){
+                        board[row][col_runner] = '#';
+                        col_runner++;
+                    }
+                    while(row_runner < m && board[row_runner][col] != '.'){
+                        board[row_runner][col] = '#';
+                        row_runner++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+};
