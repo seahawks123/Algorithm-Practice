@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int start = 0, res = 0, count = 0;
+        vector<int> vec(26, 0);
+        for(int i = 0; i < s.size(); i++){
+            count = max(count, ++vec[s[i] - 'A']);
+            while(i - start + 1 - count > k){
+                vec[s[start++] - 'A']--;
+                count = 0;
+                for(int i= 0; i < 26; i++){
+                    count = max(count, vec[i]);    
+                }
+            }
+            res = max(res, i - start + 1);
+        }
+        return res;
+    }
+};
