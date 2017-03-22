@@ -1,0 +1,67 @@
+class Solution {
+public:
+    int longestSubstring(string s, int k) {
+        int res = -1;
+        for(int i = 0; i < s.size(); i++){
+            for(int j = s.size()-1; j >= 0; j--){
+                bool no_op = false;
+                vector<int> vec(26, 0);
+                for(int p = i; p <= j; p++){
+                    vec[s[p] - 'a']++;
+                }
+                for(int p = 0; p <= 25; p++){
+                    if(vec[p] != 0 && vec[p] < k){
+                        no_op = true;
+                        break;
+                    }
+                }
+                if(!no_op){
+                    res = max(res, j - i + 1);    
+                }
+            }
+        }
+        return res == -1?0:res;
+    }
+};
+
+
+
+class Solution {
+private:
+    int helper(string s, int k, int start, int end){
+        if(end - start < k)
+            return 0;
+        vector<int> vec(26, 0);
+        int bigger = 0;
+        for(int i = start; i < end; i++){
+            if(++vec[s[i] - 'a'] >= k)
+                bigger++;
+        }
+        if(bigger == 0)
+            return 0;
+        int l = start, r = l, maxlen = 0;
+        while(r < end){
+            while(r < end && vec[s[r] - 'a'] >= k){
+                r++;
+            }
+            if(r == l){
+                l++;
+                r++;
+            }
+            else if(r == end && l == start){
+                maxlen = max(maxlen, r - l);
+            }
+            else{
+                maxlen = max(maxlen, helper(s, k, l, r));
+                l = r;
+            }
+            
+        }
+        return maxlen;
+    }
+    
+public:
+    int longestSubstring(string s, int k) {
+        return helper(s, k, 0, s.size());
+    }
+};
