@@ -1,0 +1,65 @@
+class Solution {
+public:
+    int maxProduct(vector<string>& words) {
+        sort(words.begin(), words.end());
+        int start = 0, res = 0;
+        for(int i = 1; i < words.size(); i++){
+            while(share(words[start], words[i]) && start < i){
+                start++;    
+            }  
+            if(start != i){
+                res = max(res, words[start].size() * words[i].size());
+            }
+            
+        }
+        return res;
+    }
+};
+
+class Solution {
+public:
+    int maxProduct(vector<string>& words) {
+        int res = 0;
+        for(int i = 0; i < words.size(); i++){
+            unordered_set<char> set(words[i].begin(), words[i].end());
+            for(int j = 1; j < words.size(); j++){
+                bool use = true;
+                for(auto k : words[j]){
+                    if(set.count(k)){
+                        use = false;  
+                        break;
+                    }
+                }   
+                if(use){
+                    res = max(res, (int)words[i].size()*(int)words[j].size());
+                }
+            }
+        }
+        return res;
+    }
+};
+
+
+class Solution {  
+public:  
+    int maxProduct(vector<string>& words) {  
+        int isDuplicate[2000] = {0};  
+        int nSize = words.size();  
+        for(int i = 0; i < nSize; i++)  
+        {  
+            int length = words[i].length();  
+            for(int j = 0; j < length; j++)  
+                isDuplicate[i] |= 1 << (words[i][j] - 'a');  
+        }  
+        int maxMul = 0, tempMul = 0;  
+        for(int i = 0; i < nSize -1; i++)  
+            for(int j = i +1; j < nSize; j++)  
+                if((isDuplicate[i] & isDuplicate[j]) == 0)  
+                {  
+                    tempMul = words[i].length()*words[j].length();  
+                    if(maxMul < tempMul)  
+                        maxMul = tempMul;  
+                }  
+        return maxMul;  
+    }  
+};  
