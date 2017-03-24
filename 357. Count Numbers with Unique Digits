@@ -1,0 +1,47 @@
+class Solution {
+private:
+    bool unique(int n){
+        vector<int> vec(10, 0);
+        while(n){
+            int temp = n % 10;
+            if(vec[temp]++ == 1)
+                return false;
+            n = n/10;
+        }   
+        return true;
+    }
+    
+public:
+    int countNumbersWithUniqueDigits(int n) {
+        int len = pow(10, n);
+        int count = 0;
+        for(int i = 0; i < len; i++){
+            if(i < 10 || unique(i)){
+                count++;
+            }
+        }    
+        return count;
+    }
+};
+
+
+
+class Solution {
+public:
+    int countNumbersWithUniqueDigits(int n) {
+        int m = min(10, n);
+        vector<int> dp(m+1, 9);
+        dp[0] = 1;
+        for(int i = 2; i <= m; i++){
+            for(int j = 9; j >= 9 - i + 2; j--){
+                dp[i] = dp[i] * j;
+            }    
+        }
+        int res = 0;
+        for(int i = 0; i <= m; i++){
+            res += dp[i];    
+        }
+        return res;
+        
+    }
+};
