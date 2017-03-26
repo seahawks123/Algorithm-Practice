@@ -1,0 +1,46 @@
+class Solution {
+private:  
+    void dfs(vector<vector<int>>& matrix, int m, int n, int i, int j, int count, int& cur, vector<vector<int>>& vec){
+        if(vec[i][j] > 0){
+            cur = max(cur, count + vec[i][j] - 1);
+            return;
+        }
+        cur = max(cur, count);
+        if(i+1 < m && matrix[i+1][j] > matrix[i][j]){
+            dfs(matrix, m, n, i+1, j, count+1, cur, vec);
+        }
+        if(i-1 >= 0 && matrix[i-1][j] > matrix[i][j]){
+            dfs(matrix, m, n, i-1, j, count+1, cur, vec);
+        }
+        if(j+1 < n && matrix[i][j+1] > matrix[i][j]){
+            dfs(matrix, m, n, i, j+1, count+1, cur, vec);
+        }
+        if(j-1 >= 0 && matrix[i][j-1] > matrix[i][j]){
+            dfs(matrix, m, n, i, j-1, count+1, cur, vec);
+        }
+    }
+    
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        if(m == 0)  
+            return 0;
+        int n = matrix[0].size();
+        if(n == 0)
+            return 0;
+        int res = 0;
+        vector<vector<int>> vec(m, vector<int> (n, 0));
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                int cur = 1;
+                dfs(matrix, m, n, i, j, 1, cur, vec); 
+                vec[i][j] = cur;
+                res = max(res, cur);
+            }
+          
+        }       
+        return res;
+    }
+    
+    
+};
