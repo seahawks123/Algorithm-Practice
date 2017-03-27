@@ -1,0 +1,78 @@
+class Solution {
+public:
+    vector<int> sortTransformedArray(vector<int>& nums, int a, int b, int c) {
+        if(nums.size() == 0)
+            return nums;
+        vector<int> res(nums.size(), 0);
+        if(a == 0){
+            if(b == 0){
+                vector<int> temp(nums.size(), c);
+                return temp;
+            }
+            for(int i = 0; i < nums.size(); i++){
+                res[i] = nums[i]*b + c;
+            }
+            if(b < 0){
+                reverse(res.begin(), res.end());
+            }
+        }
+        else if(a > 0){
+            int min_index = -1;
+            int min_val = INT_MAX;
+            for(int i = 0; i < nums.size(); i++){
+                nums[i] = a*nums[i]*nums[i] + b*nums[i] + c;
+                if(nums[i] < min_val){
+                    min_val = nums[i];
+                    min_index = i;
+                }
+                cout<<nums[i]<<" ";
+            }  
+            int left = min_index - 1, right = min_index + 1, count = 1;;
+            res[0] = min_val;
+            while(left >= 0 || right < nums.size()){
+                int l = (left >= 0?nums[left]:INT_MAX);
+                int r = (right < nums.size()?nums[right]:INT_MAX);
+                
+                int cur = 0;
+                if(l > r){
+                    right++; 
+                    cur = r;
+                }
+                else{
+                    left--;
+                    cur = l;
+                }
+                res[count++] = cur;
+            }
+        }
+        else{
+            int max_index = -1;
+            int max_val = INT_MIN;
+            for(int i = 0; i < nums.size(); i++){
+                nums[i] = a*nums[i]*nums[i] + b*nums[i] + c;
+                if(nums[i] > max_val){
+                    max_val = nums[i];
+                    max_index = i;
+                }
+            }  
+            int left = max_index - 1, right = max_index + 1, count = nums.size() - 2;
+            res[nums.size()-1] = max_val;
+            
+            while(left >= 0 || right < nums.size()){
+                int l = (left >= 0?nums[left]:INT_MIN);
+                int r = (right < nums.size()?nums[right]:INT_MIN);
+                int cur = 0;
+                if(l > r){
+                    left--; 
+                    cur = l;
+                }
+                else{
+                    right++;
+                    cur = r;
+                }
+                res[count--] = cur;
+            }
+        }
+        return res;
+    }
+};
