@@ -1,0 +1,25 @@
+class Solution {
+private:
+    bool fit(const pair<int, int>& p1, const pair<int, int>& p2){
+        return p1.first < p2.first && p1.second < p2.second;
+    }
+
+    void dfs(vector<pair<int, int>>& envelopes, int& res, int cur, vector<bool> vec, pair<int, int> prev){
+        res = max(cur, res);
+        for(int i = 0; i < envelopes.size(); i++){
+            if(vec[i] && fit(prev, envelopes[i])){
+                vec[i] = false;
+                dfs(envelopes, res, cur+1, vec, envelopes[i]);    
+                vec[i] = true;
+            }
+        }
+    }
+public:
+    int maxEnvelopes(vector<pair<int, int>>& envelopes) {
+        int res = -1;
+        pair<int, int> prev(0, 0);
+        vector<bool> vec(envelopes.size(), true);
+        dfs(envelopes, res, 0, vec, prev);
+        return res;
+    }
+};
