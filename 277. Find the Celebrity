@@ -1,0 +1,73 @@
+// Forward declaration of the knows API.
+bool knows(int a, int b);
+
+class Solution {
+public:
+    int findCelebrity(int n) {
+        vector<int> people;
+        for(int i = 0; i < n; i++){
+            people.push_back(i);
+        }   
+        int candidate = -1;
+        for(int i = 0; i < n; i++){
+            int flag = true;
+            for(int j = 0; j < n; j++){
+                if(i == j || !knows(i, j))
+                    continue;
+                else{
+                    flag = false;
+                    break;    
+                }
+            }  
+            if(flag){
+                candidate = i;
+                break;
+            }
+        }
+        for(int i = 0; i < n; i++){
+            if(i == candidate)
+                continue;
+            if(!knows(i, candidate)){
+                candidate = -1;
+                break;
+            }
+        }
+        return candidate;
+    }
+};
+
+
+// Forward declaration of the knows API.
+bool knows(int a, int b);
+
+class Solution {
+public:
+    int findCelebrity(int n) {
+        int candidate = 0;
+        for(int i = 1; i < n; i++){
+            if(knows(candidate, i)){
+                candidate = i;
+            }    
+        }
+        bool popular = true, aloof = true;
+        for(int i = 0; i < n; i++){
+            if(i == candidate || knows(i, candidate)){
+                continue;
+            }  
+            popular = false;
+            break;
+        }
+        if(!popular)
+            return -1;
+        for(int i = 0; i < n; i++){
+            if(i == candidate || !knows(candidate, i)){
+                continue;
+            }  
+            aloof = false;
+            break;
+        }
+        if(!aloof)
+            return -1;
+        return candidate;
+    }
+};
