@@ -1,0 +1,38 @@
+class Solution {
+private:
+    bool cycle(unordered_map<int, vector<int>>& map, int cur, vector<bool>& visited, vector<bool>& on_stack){
+        if(!visited[cur]){
+            visited[cur] = true;
+            on_stack[cur] = true;
+            vector<int> neighbors = map[cur];
+            for(int i = 0; i < neighbors.size(); i++){
+                if(!visited[neighbors[i]]){
+                    if(cycle(map, neighbors[i], visited, on_stack)){
+                        return true;
+                    }
+                }
+                else{
+                    if(on_stack[neighbors[i]]){
+                        return true;
+                    }
+                }
+            }
+        }
+        on_stack[cur] = false;
+        return false;
+    }
+public:
+    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites){
+        unordered_map<int, vector<int>> map;
+        for(int i = 0; i < prerequisites.size(); i++){
+            map[prerequisites[i].first].push_back(prerequisites[i].second);    
+        }  
+        vector<bool> visited(numCourses, false);
+        vector<bool> on_stack(numCourses, false);
+        for(auto it = map.begin(); it != map.end(); it++){
+            if(cycle(map, it->first, visited, on_stack))
+                return false;
+        }
+        return true;
+    }
+};
