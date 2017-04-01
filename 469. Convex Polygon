@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool isConvex(vector<vector<int>>& points) {
+        long long prev = 0;
+        for(int i = 0; i < points.size(); i++) {
+            int x1 = points[(i+1)%points.size()][0] - points[i][0];
+            int x2 = points[(i+2)%points.size()][0] - points[i][0];
+            int y1 = points[(i+1)%points.size()][1] - points[i][1];
+            int y2 = points[(i+2)%points.size()][1] - points[i][1];
+            long long normal = x1*y2 - y1*x2;
+            if(normal != 0){
+                if(normal * prev < 0)
+                    return false;
+                prev = normal;
+            }
+        }   
+        return true;
+    }
+};
