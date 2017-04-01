@@ -1,0 +1,67 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    int convert(string s){
+        int sign = 1;
+        if(s[0] == '-'){
+            sign = -1;
+            s = s.substr(1);
+        }
+        int res = 0, pos = 1; 
+        while(!s.empty()){
+            int digit = s.back() - '0';
+            s.pop_back();
+            res = digit*pos + res;
+            pos = pos*10;
+        }
+        return res*sign;
+    }
+    
+public:
+    TreeNode* str2tree(string s) {
+        if(s.empty())
+            return NULL;
+        int t2 = 0;
+        for(int i = 0; i < s.length(); i++){
+            if(s[i] == '('){
+                t2 = i;
+                break;
+            }
+        }
+        if(t2 == 0){
+            int num = convert(s);
+            TreeNode* root = new TreeNode(num);
+            return root;
+        }
+        else{
+            int num = convert(s.substr(0, t2)); 
+            TreeNode* root = new TreeNode(num);
+            int t1 = 0, score = 0;
+            for(int i = t2; i < s.length(); i++){
+                if(s[i] == '(')
+                    score++;
+                else if(s[i] == ')')
+                    score--;
+                if(score == 0){
+                    t1 = i;
+                    break;
+                }
+            }
+            string s1 = s.substr(t2 + 1, t1 - t2 - 1);
+            root->left = str2tree(s1);
+            if(t1 != s.size() - 1){
+                string s2 = s.substr(t1 + 2, s.size() - t1 - 3);
+                root->right = str2tree(s2);    
+            }
+            return root;
+        }
+    }
+};
