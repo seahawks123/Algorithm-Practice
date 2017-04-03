@@ -1,0 +1,57 @@
+class Solution {
+private:
+    bool dfs(vector<vector<char>>& picture, int i, int j, int m, int n){
+        int l = j - 1, r = j + 1, u = i - 1, v = i + 1;
+        while(l >= 0 || r < n){
+            if(l >= 0){
+                if(picture[i][l] == 'B')
+                    return false;
+                else
+                    l--;
+            }
+            if(r < n){
+                if(picture[i][r] == 'B')
+                    return false;
+                else
+                    r++;    
+            }
+        }
+        while(u >= 0 || v < m){
+            if(u >= 0){
+                if(picture[u][j] == 'B')
+                    return false;
+                else
+                    u--;
+            }
+            if(v < m){
+                if(picture[v][j] == 'B')
+                    return false;
+                else
+                    v++;    
+            }
+        }
+        return true;
+    }
+    
+public:
+    int findLonelyPixel(vector<vector<char>>& picture) {
+        int m = picture.size();
+        if(m == 0)
+            return 0;
+        int n = picture[0].size();
+        if(n == 0)
+            return 0;
+        int count = 0;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(picture[i][j] == 'B'){
+                    bool lonely = dfs(picture, i, j, m, n);
+                    if(lonely){
+                        count++;
+                    }
+                }
+            }
+        }    
+        return count;
+    }
+};
