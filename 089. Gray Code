@@ -1,0 +1,28 @@
+class Solution {
+private:
+    vector<int> dfs(int n){
+        if(n == 0){
+            vector<int> vec;
+            vec.push_back(0);
+            return vec;
+        }
+        if(n == 1){
+            vector<int> vec(2, 0);
+            vec[1] = 1;
+            return vec;
+        }
+        vector<int> cur = dfs(n-1);
+        vector<int> res = cur;
+        reverse(cur.begin(), cur.end());
+        for(int i = 0; i < cur.size(); i++){
+            int temp = (1 << (n-1)) | cur[i];
+            res.push_back(temp);
+        }
+        return res;
+    }
+    
+public:
+    vector<int> grayCode(int n) {
+        return dfs(n);
+    }
+};
