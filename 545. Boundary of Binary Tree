@@ -1,0 +1,76 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:    
+    void dfs_left(TreeNode* root, vector<int>& left){
+        if(root->left == NULL){
+            left.push_back(root->val);
+            return;
+        }
+        while(root){
+            if(root->left == NULL && root->right == NULL)
+                return;
+            left.push_back(root->val);
+            if(root->left)
+                root = root->left;
+            else
+                root = root->right;
+        }
+    }
+    
+    void dfs_leaves(TreeNode* root, vector<int>& leaves){
+        if(root->left == NULL && root->right == NULL){
+            leaves.push_back(root->val);
+            return;
+        }
+        if(root->left)
+            dfs_leaves(root->left, leaves);
+        if(root->right)
+            dfs_leaves(root->right, leaves);
+        
+    }
+    
+    void dfs_right(TreeNode* root, vector<int>& right_bound){
+        if(root->right == NULL){
+            return;
+        }
+        while(root){
+            if(root->left == NULL && root->right == NULL)
+                return;
+            right_bound.push_back(root->val);
+            if(root->right)
+                root = root->right;
+            else
+                root = root->left;
+        }
+    }
+public:
+    vector<int> boundaryOfBinaryTree(TreeNode* root) {
+        vector<int> res;
+        if(!root)
+            return res;
+        if(!root->left && !root->right){
+            res.push_back(root->val);
+            return res;
+        }
+        vector<int> left_bound;
+        vector<int> right_bound;
+        vector<int> leaves;
+        dfs_left(root, left_bound);
+        dfs_leaves(root, leaves);
+        dfs_right(root, right_bound);
+        reverse(right_bound.begin(), right_bound.end());
+        if(!right_bound.empty())
+            right_bound.pop_back();
+        left_bound.insert(left_bound.end(), leaves.begin(), leaves.end());
+        left_bound.insert(left_bound.end(), right_bound.begin(), right_bound.end());
+        return left_bound;
+    }
+};
