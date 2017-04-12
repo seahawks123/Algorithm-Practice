@@ -1,0 +1,65 @@
+class WordDictionary {
+private:
+    struct TrieNode{
+        unordered_map<char, TrieNode*> map;
+        bool is_word;
+    };
+    
+    TrieNode* root;
+    
+    bool dfs(TrieNode* cur, string word, int index){
+        if(index == word.size() && cur != NULL)
+            return cur->is_word;
+        char temp = word[index];
+        if(temp == '.'){
+            for(auto it = cur->map.begin(); it != cur->map.end(); it++){
+                if(dfs(it->second, word, index + 1))
+                    return true;
+            }        
+            return false;
+        }
+        else{
+            if(cur->map.count(temp) == 0){
+                return false;
+            }
+            else
+                return dfs(cur->map[temp], word, index + 1);
+        }
+    }
+public:
+    /** Initialize your data structure here. */
+    WordDictionary() {
+        root = new TrieNode();        
+    }
+    
+    /** Adds a word into the data structure. */
+    void addWord(string word) {
+        TrieNode* cur = root;
+        for(int i = 0; i < word.size(); i++){
+            if(cur->map.count(word[i])){
+                cur = cur->map[word[i]];    
+            }            
+            else{
+                TrieNode* temp = new TrieNode();
+                cur->map[word[i]] = temp;
+                cur = temp;
+            }
+        } 
+        cur->is_word = true;
+    }
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    bool search(string word) {
+        if(word.size() == 0)
+            return false;
+        TrieNode* cur = root;
+        return dfs(cur, word, 0);
+    }
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * bool param_2 = obj.search(word);
+ */
