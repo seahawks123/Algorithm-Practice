@@ -1,0 +1,48 @@
+class ZigzagIterator {
+private:
+    int t1, t2, size1, size2, pointer;
+    vector<int> vv1, vv2;
+    
+public:
+    ZigzagIterator(vector<int>& v1, vector<int>& v2) {
+        vv1 = v1;
+        vv2 = v2;
+        size1 = v1.size();
+        size2 = v2.size();
+        t1 = 0;
+        t2 = 0;
+        pointer = 0;
+    }
+
+    int next() {
+        int temp = pointer%2, res = 0, added = 0;
+        pointer++;
+        if(temp == 0 && t1 < size1){
+            res = vv1[t1++];  
+            added = 1;
+        }
+        else if(temp == 1 && t2 < size2){
+            res = vv2[t2++];
+            added = 1;
+        }
+        if(added == 0){
+            if(t1 == size1){
+                res = vv2[t2++];
+            }    
+            else{
+                res = vv1[t1++];
+            }
+        }
+        return res;
+    }
+
+    bool hasNext() {
+        return !((t1 == size1) && (t2 == size2));        
+    }
+};
+
+/**
+ * Your ZigzagIterator object will be instantiated and called as such:
+ * ZigzagIterator i(v1, v2);
+ * while (i.hasNext()) cout << i.next();
+ */
