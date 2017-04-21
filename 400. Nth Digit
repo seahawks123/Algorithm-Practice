@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int findNthDigit(int n) {
+        long long len = 1, base = 9;
+        while(n - base*len > 0){
+            n -= base*len;
+            base *= 10;
+            len++;
+        }    
+        long long target = base/9 + (n-1)/len;
+        string res = to_string(target);
+        return res[(n-1)%len] - '0';
+    }
+};
+
+class Solution {
+public:
+    int findNthDigit(int n) {
+        long long len = 1, base = 9;
+        while(n - base*len > 0){
+            n -= base*len;
+            base *= 10;
+            len++;
+        }    
+        long long index = (n-1)/len, target = base/9 + index;
+        n -= index*len;
+        string res = to_string(target);
+        return res[n-1] - '0';
+    }
+};
