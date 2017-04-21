@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        if((dividend == INT_MIN && divisor == -1) || divisor == 0)
+            return INT_MAX;
+        int sign = ((dividend < 0) ^ (divisor < 0))?-1:1;
+        long long m = abs((long long) dividend), n = abs((long long) divisor);
+        int res = 0;
+        while(m >= n){
+            long long temp = n, count = 1;
+            while(m >= (temp << 1)){
+                temp <<= 1;
+                count <<= 1;
+            }
+            m -= temp;
+            res += count;
+        }
+        return sign == 1?res:-res;
+    }
+};
