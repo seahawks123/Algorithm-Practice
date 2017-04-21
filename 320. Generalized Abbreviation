@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<string> generateAbbreviations(string word) {
+        vector<string> res;
+        if(word.size() == 0){
+            res.push_back("");
+            return res;
+        }
+        res.push_back(word);
+        int len = pow(2, word.size()), size = word.length();
+        for(int i = 1; i < len; i++){
+            string builder = "";
+            for(int j = 0; j < size; j++){
+                int mask = 1 << j;
+                if(mask & i){
+                    if(builder.length() == 0 || (builder[0] >= 'a' && builder[0] <= 'z'))
+                        builder = '1' + builder;
+                    else{
+                        int num = 0, temp = 0;
+                        while(temp < builder.size() && (builder[temp] >= '0' && builder[temp] <= '9')){
+                            num = num*10 + builder[temp] - '0';
+                            temp++;
+                        }
+                        num++;
+                        builder = to_string(num) + builder.substr(temp);;
+                    }
+                }
+                else{
+                    builder = word[size - 1 - j] + builder; 
+                }
+            }
+            res.push_back(builder);
+        }
+        return res;
+    }
+};
