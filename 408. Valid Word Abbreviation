@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool validWordAbbreviation(string word, string abbr) {
+        int i = 0, j = 0;
+        while(i < word.size() && j < abbr.size()){
+            if(abbr[j] == '0')
+                return false;
+            if(abbr[j] > '0' && abbr[j] <= '9'){
+                int num = 0;
+                while(j < abbr.size() && (abbr[j] >= '0' && abbr[j] <= '9')){
+                    num = num*10 + abbr[j] - '0';
+                    j++;
+                }
+                i += num;
+            }
+            else{
+                if(abbr[j] != word[i])
+                    return false;
+                j++;
+                i++;
+            }
+        }
+        return i == word.size() && j == abbr.size();
+    }
+};
