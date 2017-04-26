@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    pair<int, int> dfs(TreeNode* root){
+        if(!root)
+            return make_pair(0, 0);
+        pair<int, int> left = dfs(root->left);
+        pair<int, int> right = dfs(root->right);
+        return make_pair(left.first + right.first + abs(left.second - right.second), left.second + right.second + root->val);
+    }
+    
+public:
+    int findTilt(TreeNode* root) {
+        if(!root || (!root->left && !root->right))
+            return 0;
+        pair<int, int> res = dfs(root);
+        return res.first;
+    }
+};
