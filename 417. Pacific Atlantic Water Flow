@@ -1,0 +1,50 @@
+class Solution {
+private:
+    bool atlantic(vector<vector<int>>& matrix, int i, int j, int m, int n, int prev){
+        if(i >= m || j >= n)
+            return true;
+        if(i < 0 || j < 0 || matrix[i][j] == INT_MIN || matrix[i][j] > prev){
+            return false;
+        }
+        int temp = matrix[i][j];
+        matrix[i][j] = INT_MIN;
+        
+        bool res =  atlantic(matrix, i+1, j, m, n, temp) || atlantic(matrix, i, j+1, m, n, temp) || 
+        atlantic(matrix, i-1, j, m, n, temp) || atlantic(matrix, i, j-1, m, n, temp);
+        matrix[i][j] = temp;
+        return res;
+    }
+    
+    bool pacific(vector<vector<int>>& matrix, int i, int j, int m, int n, int prev){
+        if(i < 0 || j < 0)
+            return true;
+        if(i >= m || j >= n || matrix[i][j] == INT_MIN || matrix[i][j] > prev){
+            return false;
+        }
+        int temp = matrix[i][j];
+        matrix[i][j] = INT_MIN;
+        bool res =  pacific(matrix, i+1, j, m, n, temp) || pacific(matrix, i, j+1, m, n, temp) || 
+        pacific(matrix, i-1, j, m, n, temp) || pacific(matrix, i, j-1, m, n, temp);
+        matrix[i][j] = temp;
+        return res;
+    }
+    
+public:
+    vector<pair<int, int>> pacificAtlantic(vector<vector<int>>& matrix) {
+        vector<pair<int, int>> res;
+        int m = matrix.size(); 
+        if(m == 0)
+            return res;
+        int n = matrix[0].size();
+        if(n == 0)
+            return res;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(pacific(matrix, i, j, m, n, matrix[i][j]) && atlantic(matrix, i, j, m, n, matrix[i][j])){
+                    res.push_back(make_pair(i, j));
+                }
+            }
+        }
+        return res;
+    }
+};
