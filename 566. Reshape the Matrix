@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<vector<int>> matrixReshape(vector<vector<int>>& nums, int r, int c) {
+        vector<vector<int>> res(r, vector<int>(c, 0));
+        if(nums.size() == 0 || nums[0].size() == 0)
+            return nums;
+        int count = nums.size()*nums[0].size();
+        if(r*c != count)
+            return nums;
+        int row = 0, column = 0;
+        for(int i = 0; i < r; i++){
+            for(int j = 0; j < c; j++){
+                res[i][j] = nums[row][column++];
+                if(column == nums[0].size()){
+                    row++;
+                    column = 0;
+                }
+            }
+        }
+        return res;
+    }
+};
