@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<string>> groupStrings(vector<string>& strings) {
+        unordered_map<string, vector<string>> map;
+        for(int i = 0; i < strings.size(); i++){
+            bool new_entry = true;
+            for(int j = 0; j < 26; j++){
+                string cur = strings[i];
+                for(int k = 0; k < cur.size(); k++){
+                    cur[k] = (cur[k] - 97 + j)%26 + 97;
+                }
+                if(map.count(cur)){
+                    new_entry = false;
+                    map[cur].push_back(strings[i]);
+                    break;
+                }
+            }    
+            if(new_entry){
+                map[strings[i]];
+            }
+        }
+        vector<vector<string>> res;
+        for(auto it = map.begin(); it != map.end(); it++){
+            vector<string> temp;
+            temp.push_back(it->first);
+            vector<string> t = it->second;
+            temp.insert(temp.end(), t.begin(), t.end());
+            res.push_back(temp);
+        }
+        return res;
+    }
+};
