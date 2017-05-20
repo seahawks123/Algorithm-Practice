@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> getModifiedArray(int length, vector<vector<int>>& updates) {
+        if(length <= 0)
+            return {};
+        vector<int> res(length, 0);
+        for(int i = 0; i < updates.size(); i++){
+            for(int j = updates[i][0]; j <= updates[i][1]; j++){
+                res[j] += updates[i][2];    
+            }
+        }
+        return res;
+    }
+};
+
+
+class Solution {
+public:
+    vector<int> getModifiedArray(int length, vector<vector<int>>& updates) {
+        vector<int> res(length, 0);
+        for(int i = 0; i < updates.size(); i++){
+            res[updates[i][0]] += updates[i][2];
+            if(updates[i][1] + 1 < res.size()){
+                res[updates[i][1] + 1] -= updates[i][2];
+            }
+        }
+        int sum = 0;
+        for(int i = 0; i < res.size(); i++){
+            sum += res[i];
+            res[i] = sum;
+        }
+        return res;
+    }
+};
