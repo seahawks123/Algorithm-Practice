@@ -1,0 +1,45 @@
+class Solution {
+private:    
+    int parent (int i, vector<int>& id) {
+        while (id[i] != i) {
+            i = id[i];    
+        }    
+        return i;
+    }
+public:
+    vector<int> numIslands2(int m, int n, vector<pair<int, int>>& positions) {
+        if (positions.size() == 0) {
+            return {};    
+        }
+        vector<int> res(positions.size(), 0);
+        if (m <= 0 || n <= 0) {
+            return res;
+        }
+        vector<int> id(m*n, -1);
+        vector<pair<int, int>> dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        int count = 0;
+        for (int i = 0; i < positions.size(); i++) {
+            pair<int, int> cur = positions[i];
+            int x = cur.first, y = cur.second, index = x*n+y;
+            id[index] = index;
+            count++;
+            for (int j = 0;j < dirs.size(); j++) {
+                pair<int, int> dir = dirs[j];
+                int a = dir.first, b = dir.second;
+                a = x+a;
+                b = y+b;
+                int new_index = a*n+b;
+                if (a >= m || a < 0 || b >= n || b < 0 || id[new_index] == -1) {
+                    continue;        
+                }
+                int parent_index = parent(index, id), parent_new_index = parent(new_index, id);
+                if (parent_index != parent_new_index) {
+                    id[parent_index] = parent_new_index;
+                    count--;
+                }
+            }
+            res[i] = count;
+        }
+        return res;
+    }
+};
