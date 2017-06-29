@@ -1,0 +1,35 @@
+class Solution {
+private:    
+    bool dfs(vector<vector<int>>& maze, int i, int j, vector<int>& destination, vector<vector<int>>& dirs, int m, int n, 
+    vector<vector<int>>& visited) {
+        visited[i][j] = 1;    
+        for(int k = 0; k < dirs.size(); k++) {
+            int x = dirs[k][0], y = dirs[k][1];
+            int ii = i+x, jj = j+y;
+            while(ii < m && ii >= 0 && jj < n && jj >= 0 && maze[ii][jj] == 0) {
+                ii += x;
+                jj += y;
+            }
+            ii -= x;
+            jj -= y;
+            if(ii == destination[0] && jj == destination[1]) {
+                return true;
+            }
+            if(visited[ii][jj] == 1) {
+                continue;
+            }
+            if(dfs(maze, ii, jj, destination, dirs, m, n, visited)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+public:
+    bool hasPath(vector<vector<int>>& maze, vector<int>& start, vector<int>& destination) {
+        int i = start[0], j = start[1], m = maze.size(), n = maze[0].size();
+        vector<vector<int>> visited(m, vector<int> (n, 0));
+        vector<vector<int>> dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        return dfs(maze, i, j, destination, dirs, m, n, visited);
+    }
+};
