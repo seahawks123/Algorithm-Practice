@@ -1,0 +1,58 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
+    	if(!t1 && !t2) {
+            return NULL;
+        }   
+        TreeNode* root;
+        if(t1 && t2) {
+        	root = new TreeNode(t1->val + t2->val);
+            root->left = mergeTrees(t1->left, t2->left);
+        	root->right = mergeTrees(t1->right, t2->right);
+        }
+        else if(t1 && !t2) {
+        	root = new TreeNode(t1->val);   
+            root->left = mergeTrees(t1->left, NULL);
+        	root->right = mergeTrees(t1->right, NULL);
+        }
+        else {
+            root = new TreeNode(t2->val);   
+            root->left = mergeTrees(NULL, t2->left);
+        	root->right = mergeTrees(NULL, t2->right);
+        }
+        return root;       
+    }
+};
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
+    	if(!t1 && !t2) {
+            return NULL;
+        }   
+        int l = (t1?t1->val:0), r = (t2?t2->val:0);
+        TreeNode* root = new TreeNode(l+r);
+        root->left = mergeTrees(t1?t1->left:NULL, t2?t2->left:NULL);
+        root->right = mergeTrees(t1?t1->right:NULL, t2?t2->right:NULL);
+        return root;       
+    }
+};
