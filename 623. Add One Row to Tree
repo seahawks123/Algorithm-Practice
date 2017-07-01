@@ -1,0 +1,97 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    void dfs(TreeNode* root, int v, int d, int level) {
+        if(!root) {
+            return;
+        }
+        if(d == level + 1) {
+            TreeNode* left = root->left;	 
+            TreeNode* right = root->right;
+            root->left = new TreeNode(v);
+            root->right = new TreeNode(v);
+            root->left->left = left;
+            root->right->right = right; 
+            return;
+        }
+        dfs(root->left, v, d, level+1);
+        dfs(root->right, v, d, level+1);
+    }
+public:
+    TreeNode* addOneRow(TreeNode* root, int v, int d) {
+        if(!root) {
+            return NULL;
+        }
+    	queue<TreeNode*> q;
+        if(d == 1) {
+            TreeNode* new_root = new TreeNode(v);
+            new_root->left = root;
+            return new_root;
+        }
+        dfs(root, v, d, 1);
+        return root;
+    }
+};
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* addOneRow(TreeNode* root, int v, int d) {
+        if(!root) {
+            return NULL;
+        }
+    	queue<TreeNode*> q;
+        if(d == 1) {
+            TreeNode* new_root = new TreeNode(v);
+            new_root->left = root;
+            return new_root;
+        }
+        int level = 1;
+        q.push(root);
+        while(!q.empty()) {
+            int size = q.size();
+            for(int i = 0; i < size; i++) {
+                TreeNode* cur = q.front();
+                q.pop();
+           		if(level == d-1) {
+                	TreeNode* left = cur->left;	 
+                    TreeNode* right = cur->right;
+                    cur->left = new TreeNode(v);
+                    cur->right = new TreeNode(v);
+                    cur->left->left = left;
+                    cur->right->right = right;
+                }
+                else {
+                	if(cur->left) {
+                        q.push(cur->left);
+                    }	    
+                    if(cur->right) {
+                        q.push(cur->right);
+                    }
+                } 
+            }
+          	if(level == d-1) {
+                return root;
+            }
+            level++;
+        }
+        return root;
+    }
+};
