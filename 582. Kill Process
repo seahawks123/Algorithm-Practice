@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<int> killProcess(vector<int>& pid, vector<int>& ppid, int kill) {
+        unordered_map<int, vector<int>> map;
+        for(int i = 0; i < ppid.size(); i++) {
+            map[ppid[i]].push_back(pid[i]);      
+        }
+    	vector<int> res;
+        queue<int> q;
+        q.push(kill);
+        while(!q.empty()) {
+        	int cur = q.front();
+            q.pop();
+            res.push_back(cur);
+            int size = map[cur].size();
+            vector<int> temp = map[cur];
+            for(int i = 0; i < size; i++) {
+                q.push(temp[i]);
+            }
+        }
+        return res;
+    }
+};
+
+
+class Solution {
+private:
+    void dfs(int kill, vector<int>& res, unordered_map<int, vector<int>>& map) {
+        res.push_back(kill);
+        vector<int> children = map[kill];
+        for(int i = 0; i < children.size(); i++) {
+            dfs(children[i], res, map);
+        }
+    }
+public:
+    vector<int> killProcess(vector<int>& pid, vector<int>& ppid, int kill) {
+        unordered_map<int, vector<int>> map;
+        for(int i = 0; i < ppid.size(); i++) {
+            map[ppid[i]].push_back(pid[i]);      
+        }
+    	vector<int> res;
+        dfs(kill, res, map);
+        return res;
+    }
+};
