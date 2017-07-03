@@ -1,0 +1,24 @@
+class Solution {
+private:
+	vector<string> helper(vector<string>& vec) {
+        if(vec.size() == 1) {
+            return vec;
+        }
+    	int l = 0, r = vec.size() - 1;
+        vector<string> res;
+        while(l < r) {
+            res.push_back("(" + vec[l] + "," + vec[r] + ")");
+            l++;
+            r--;
+        }
+        return helper(res);
+   	}
+public:
+    string findContestMatch(int n) {
+    	vector<string> vec;
+        for(int i = 1; i <= n; i++) {
+        	vec.push_back(to_string(i));    
+        }
+        return helper(vec)[0];
+    }
+};
