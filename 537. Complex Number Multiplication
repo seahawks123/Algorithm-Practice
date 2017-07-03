@@ -1,0 +1,33 @@
+class Solution {
+private:
+	int int_converter(string s) {
+        int res = 0, flag = 1;
+        for(int i = 0; i < s.size(); i++) {
+            if(s[i] > '9' || s[i] < '0') {
+                flag = -1;
+                continue;
+            }
+        	res = res*10 + s[i] - '0';    
+        }
+        return res*flag;
+    }
+public:
+    string complexNumberMultiply(string a, string b) {
+   		int a_plus = a.find('+');
+        string a_real = a.substr(0, a_plus);
+        string a_imag = a.substr(a_plus+1);
+        a_imag.pop_back();
+        int b_plus = b.find('+');
+        string b_real = b.substr(0, b_plus);
+        string b_imag = b.substr(b_plus+1);
+        b_imag.pop_back();
+        int a_r = int_converter(a_real); 
+        int b_r = int_converter(b_real); 
+        int a_i = int_converter(a_imag); 
+        int b_i = int_converter(b_imag);
+        int r = a_r*b_r; 
+        int i_r = a_r*b_i+a_i*b_r; 
+        int i = a_i * b_i *(-1);
+        return to_string(r+i) + "+" + to_string(i_r) + "i";
+    }
+};
